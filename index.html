@@ -1,16 +1,249 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raincafe</title>
-  
-  <!-- AdSense コード -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX"
-          crossorigin="anonymous"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>thara1313 — Rain Portfolio</title>
+  <meta name="description" content="雨をテーマにした、静かで没入感のある自己紹介サイト。作品や連絡先、スキルを掲載。" />
+
+  <!-- ▼ AdSense（審査用／あなたの publisher ID を入れてOK） -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8963320107485839" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --bg:#0d1117;
+      --ink:#e6eef7;
+      --muted:#a5b0c3;
+      --accent:#6cc0ff;
+      --glass:rgba(255,255,255,.06);
+      --glass-strong:rgba(255,255,255,.10);
+      --border:rgba(255,255,255,.12);
+      --card-radius:18px;
+      --shadow:0 20px 40px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                   "Hiragino Kaku Gothic ProN","Noto Sans JP", Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 500px at 80% -10%, #1c2330 0%, transparent 60%),
+        radial-gradient(900px 500px at -10% 20%, #131a24 0%, transparent 55%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+
+    /* ---- Rain animation ---- */
+    .rain{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.09) 0 1px,
+        transparent 1px 40px
+      );
+      mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000);
+      animation: drift 12s linear infinite;
+    }
+    @keyframes drift{
+      from{transform:translateY(-120px)}
+      to  {transform:translateY(0)}
+    }
+    .grain{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image:
+        radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size:3px 3px;
+      opacity:.45;
+      mix-blend-mode:overlay;
+    }
+
+    header.hero{
+      position:relative; z-index:1;
+      min-height:72svh;
+      display:grid; place-items:center;
+      padding:64px 20px 28px;
+    }
+    .hero-inner{
+      width:min(1100px, 92vw);
+      display:grid; gap:28px; justify-items:center; text-align:center;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 14px; border:1px solid var(--border);
+      background:var(--glass); backdrop-filter: blur(6px);
+      border-radius:999px; color:var(--muted); letter-spacing:.04em;
+    }
+    .title{
+      font-size: clamp(28px, 5vw, 56px);
+      font-weight:800; line-height:1.08;
+      text-shadow: 0 2px 0 rgba(0,0,0,.25);
+    }
+    .subtitle{
+      color:var(--muted); max-width:800px; line-height:1.8;
+      font-size: clamp(14px, 2.3vw, 18px);
+    }
+    .cta{
+      display:flex; gap:12px; flex-wrap:wrap; justify-content:center;
+      margin-top:6px;
+    }
+    .btn{
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, var(--glass-strong), rgba(255,255,255,.02));
+      color:var(--ink); text-decoration:none; font-weight:700;
+      padding:12px 18px; border-radius:12px;
+      box-shadow: var(--shadow); transition: .25s transform, .25s border-color, .25s background;
+    }
+    .btn:hover{ transform:translateY(-2px); border-color:rgba(255,255,255,.28) }
+    .btn.accent{ background:linear-gradient(180deg, #2a9cf5, #1477cf); border-color:#2a9cf5 }
+
+    main{ position:relative; z-index:1 }
+    section{
+      width:min(1100px, 92vw);
+      margin:48px auto;
+      background:var(--glass);
+      border:1px solid var(--border);
+      backdrop-filter: blur(10px);
+      border-radius:var(--card-radius);
+      padding:28px;
+      box-shadow: var(--shadow);
+    }
+    section h2{
+      margin:4px 0 20px; font-size:22px; letter-spacing:.06em; color:#cfe5ff;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+      gap:16px;
+    }
+    .card{
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-radius:14px; padding:18px; min-height:140px;
+      display:flex; flex-direction:column; gap:10px; justify-content:space-between;
+      transition:.25s transform, .25s border-color, .25s background;
+    }
+    .card:hover{ transform: translateY(-3px); border-color: rgba(255,255,255,.28) }
+    .muted{ color:var(--muted) }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace }
+
+    footer{
+      text-align:center; color:var(--muted);
+      padding:40px 20px 60px;
+    }
+
+    /* small ad slot (optional) */
+    .ad{
+      margin:16px auto 0; width:100%;
+      border:1px dashed var(--border); border-radius:12px; padding:10px; color:var(--muted);
+      text-align:center; font-size:13px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Raincafe へようこそ</h1>
-  <p>ここは雨をテーマにした没入型サイトです。</p>
+  <div class="rain"></div>
+  <div class="grain"></div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <span class="badge">☔ Raincrafted Portfolio</span>
+      <h1 class="title">thara1313<br class="sp"> — 静かな雨音と、ものづくり。</h1>
+      <p class="subtitle">
+        フロントエンド寄りの個人開発者。<br>
+        雨の静けさのように、ノイズをそぎ落とした体験をつくっています。<br>
+        小さなWeb体験から、選択型の物語コンテンツまで。
+      </p>
+      <div class="cta">
+        <a class="btn accent" href="https://thara1313.github.io/raincafe/" target="_blank" rel="noreferrer">Raincafe を開く</a>
+        <a class="btn" href="#works">作品</a>
+        <a class="btn" href="#contact">連絡先</a>
+      </div>
+
+      <!-- 小さな広告枠（審査通過後に本番ユニットを差し替え） -->
+      <div class="ad">AdSpace — 審査通過後に広告ユニットをここへ</div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about">
+      <h2>自己紹介</h2>
+      <div class="grid">
+        <div class="card">
+          <div>
+            <strong>今やっていること</strong>
+            <p class="muted">Flutter/Flutter Webでの軽量な体験作り。文章・音・操作が自然に重なるUI/UX。</p>
+          </div>
+          <div class="mono muted">stack: Flutter / Dart / HTML / CSS / a11y</div>
+        </div>
+        <div class="card">
+          <div>
+            <strong>価値観</strong>
+            <p class="muted">“静かな集中”を邪魔しない設計。視覚のコントラスト、移動の物理感、指先に残る余韻。</p>
+          </div>
+          <div class="mono muted">design: minimal / glass / motion</div>
+        </div>
+        <div class="card">
+          <div>
+            <strong>これから</strong>
+            <p class="muted">選択型小説エンジンの改良、セーブ/分岐ビューア、BGM/効果音の同期、公開ツール化。</p>
+          </div>
+          <div class="mono muted">roadmap: story engine v2</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="works">
+      <h2>作品</h2>
+      <div class="grid">
+        <a class="card" href="https://thara1313.github.io/raincafe/" target="_blank" rel="noreferrer" style="text-decoration:none;color:inherit">
+          <div>
+            <strong>Raincafe — 雨音の喫茶店</strong>
+            <p class="muted">短い選択と余韻で構成するミニストーリー。Flutter Web / PWA / オフライン対応。</p>
+          </div>
+          <div class="mono muted">#story  #pwa  #flutter</div>
+        </a>
+        <div class="card">
+          <div>
+            <strong>UI 小品集</strong>
+            <p class="muted">ガラスカード、レインアニメ、低反射ボタンなど、小さなUIアイデアの断片。</p>
+          </div>
+          <div class="mono muted">soon</div>
+        </div>
+        <div class="card">
+          <div>
+            <strong>Utility / テンプレ</strong>
+            <p class="muted">物語JSON・フラグ・スコア・エンディングの汎用スキーマを公開予定。</p>
+          </div>
+          <div class="mono muted">schema: story@1</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>連絡先</h2>
+      <div class="grid">
+        <a class="card" href="mailto:your_name@example.com" style="text-decoration:none;color:inherit">
+          <div><strong>メール</strong><p class="muted">your_name@example.com</p></div>
+          <div class="mono muted">Gmail</div>
+        </a>
+        <a class="card" href="https://github.com/thara1313" target="_blank" rel="noreferrer" style="text-decoration:none;color:inherit">
+          <div><strong>GitHub</strong><p class="muted">開発中のリポジトリ/サンプルなど</p></div>
+          <div class="mono muted">@thara1313</div>
+        </a>
+        <a class="card" href="https://x.com/" target="_blank" rel="noreferrer" style="text-decoration:none;color:inherit">
+          <div><strong>X / SNS</strong><p class="muted">更新のお知らせや、断片の共有</p></div>
+          <div class="mono muted">post sometimes</div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="y"></span> thara1313 — Built for calm.
+  </footer>
+
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
 </body>
 </html>
