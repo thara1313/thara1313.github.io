@@ -1,32 +1,166 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Raincafe | Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>thara1313 — Rain Portfolio</title>
+  <meta name="description" content="雨をテーマにした、静かで没入感のある自己紹介サイト。作品や連絡先、スキルを掲載。" />
+
+  <!-- ▼ AdSense（審査用） -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8963320107485839" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --bg:#0d1117;
+      --ink:#e6eef7;
+      --muted:#a5b0c3;
+      --accent:#6cc0ff;
+      --glass:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.12);
+      --shadow:0 20px 40px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                   "Hiragino Kaku Gothic ProN","Noto Sans JP", Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      overflow-x:hidden;
+    }
+
+    /* ---- Rain animation ---- */
+    .rain{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.09) 0 1px,
+        transparent 1px 40px
+      );
+      mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000);
+      animation: drift 12s linear infinite;
+    }
+    @keyframes drift{
+      from{transform:translateY(-120px)}
+      to  {transform:translateY(0)}
+    }
+
+    .grain{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size:3px 3px;
+      opacity:.45;
+      mix-blend-mode:overlay;
+    }
+
+    /* ---- Content ---- */
+    .content{
+      opacity:0;
+      transition:opacity 1.5s ease;
+      position:relative;
+      z-index:1;
+    }
+    .content.show{ opacity:1 }
+
+    header.hero{
+      min-height:72svh;
+      display:grid; place-items:center;
+      padding:64px 20px 28px;
+      text-align:center;
+    }
+    .title{
+      font-size: clamp(28px, 5vw, 56px);
+      font-weight:800;
+    }
+    .subtitle{ color:var(--muted); max-width:800px; margin:auto; line-height:1.7; }
+    .cta{ display:flex; gap:12px; justify-content:center; margin-top:16px; flex-wrap:wrap; }
+    .btn{
+      border:1px solid var(--border);
+      background:var(--glass);
+      padding:12px 18px;
+      border-radius:12px;
+      color:var(--ink); text-decoration:none; font-weight:700;
+      transition:.25s; box-shadow:var(--shadow);
+    }
+    .btn:hover{ transform:translateY(-2px); border-color:rgba(255,255,255,.28) }
+    .btn.accent{ background:linear-gradient(180deg, #2a9cf5, #1477cf); border-color:#2a9cf5 }
+
+    section{
+      width:min(1100px, 92vw);
+      margin:48px auto;
+      background:var(--glass);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+    section h2{ margin-bottom:20px; color:#cfe5ff }
+    .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px }
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:14px; padding:18px;
+      transition:.25s;
+    }
+    .card:hover{ transform:translateY(-3px); border-color:rgba(255,255,255,.28) }
+    .muted{ color:var(--muted) }
+
+    footer{
+      text-align:center; color:var(--muted);
+      padding:40px 20px 60px;
+    }
+  </style>
 </head>
 <body>
-  <div class="hero">
-    <h1>Raincafe</h1>
-    <p>雨と共に学び、創り、表現する。</p>
+  <div class="rain"></div>
+  <div class="grain"></div>
+
+  <!-- 全コンテンツをまとめて遅延表示 -->
+  <div class="content" id="mainContent">
+    <header class="hero">
+      <div>
+        <h1 class="title">thara1313 — 静かな雨音と、ものづくり。</h1>
+        <p class="subtitle">フロントエンド寄りの個人開発者。雨の静けさのように、ノイズをそぎ落とした体験を作っています。</p>
+        <div class="cta">
+          <a class="btn accent" href="https://thara1313.github.io/raincafe/" target="_blank">Raincafe を開く</a>
+          <a class="btn" href="#works">作品</a>
+          <a class="btn" href="#contact">連絡先</a>
+          <a class="btn" href="privacy.html">Privacy Policy</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="about">
+        <h2>自己紹介</h2>
+        <p>UCSD の学生です。経済学を専攻しつつ、プログラミングやアプリ開発に挑戦しています。将来は CPA 資格の取得や起業を目指しています。</p>
+      </section>
+
+      <section id="works">
+        <h2>作品</h2>
+        <ul>
+          <li><a href="https://thara1313.github.io/raincafe/">🌧 Raincafe</a> – 雨をテーマにした体験型Webアプリ</li>
+          <li>♟ Piyotaso Chess – オリジナルのチェスアプリ</li>
+        </ul>
+      </section>
+
+      <section id="contact">
+        <h2>連絡先</h2>
+        <p>ご連絡は <a href="mailto:your_name@example.com">こちら</a> からお願いします。</p>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="y"></span> thara1313 | Built for calm.
+    </footer>
   </div>
 
-  <section class="about">
-    <h2>About Me</h2>
-    <p>UCSD の学生です。経済学を専攻しつつ、プログラミングやアプリ開発にも挑戦しています。将来はCPA資格や起業にも興味があります。</p>
-  </section>
-
-  <section class="projects">
-    <h2>Projects</h2>
-    <ul>
-      <li><a href="https://thara1313.github.io/raincafe/">🌧 Raincafe</a> – 雨をテーマにした体験型Webアプリ</li>
-      <li><a href="#">♟ Piyotaso Chess</a> – オリジナルのチェスアプリ</li>
-    </ul>
-  </section>
-
-  <footer>
-    <p>© 2025 Taito Harada | <a href="privacy.html">Privacy Policy</a></p>
-  </footer>
+  <script>
+    // 年号表示
+    document.getElementById('y').textContent = new Date().getFullYear();
+    // 3秒後にフェードイン
+    setTimeout(()=>document.getElementById("mainContent").classList.add("show"),3000);
+  </script>
 </body>
 </html>
