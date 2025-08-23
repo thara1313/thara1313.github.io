@@ -1,0 +1,95 @@
+:root {
+  --bg: #0d1117;
+  --ink: #e6eef7;
+  --muted: #a5b0c3;
+  --accent: #6cc0ff;
+  --glass: rgba(255, 255, 255, .06);
+  --border: rgba(255, 255, 255, .12);
+  --shadow: 0 20px 40px rgba(0,0,0,.45);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+/* 雨背景 */
+.rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.drop {
+  position: absolute;
+  width: 2px;
+  height: 10px;
+  background: rgba(200, 220, 255, 0.25);
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  from { transform: translateY(-30px); }
+  to   { transform: translateY(100vh); }
+}
+
+/* コンテンツ */
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.hero {
+  text-align: center;
+  padding: 60px 20px;
+}
+.title {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800;
+}
+.subtitle {
+  color: var(--muted);
+  max-width: 700px;
+  margin: 20px auto;
+  line-height: 1.7;
+}
+.cta { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--ink);
+  text-decoration: none;
+  transition: .25s;
+}
+.btn:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.3); }
+.btn.accent { background: linear-gradient(180deg, #2a9cf5, #1477cf); border-color: #2a9cf5; }
+
+section {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 30px 0;
+  box-shadow: var(--shadow);
+}
+section h2 { margin-bottom: 15px; color: #cfe5ff; }
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  margin-top: 40px;
+  padding: 20px;
+}
