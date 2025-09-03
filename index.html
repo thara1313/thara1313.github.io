@@ -143,37 +143,48 @@
     </div>
   </header>
 
-  <!-- メイン（ガラスUI） -->
-  <main>
-    <div class="glass">
-      <h2 class="h1">静かな集中、やわらぐ灯り。</h2>
-      <p class="sub">タイマーやリーディング、あなたの“雨の日”をここから。</p>
+ <!-- メイン（ガラスUI） -->
+<main>
+  <div class="glass">
+    <h2 class="h1">静かな集中、やわらぐ灯り。</h2>
+    <p class="sub">タイマーやリーディング、あなたの“雨の日”をここから。</p>
 
-      <div class="grid">
-        <div class="card">
-          <div>
-            <strong>Study Timer</strong>
-            <p class="sub">ミニマルな学習タイマー（履歴はこの端末に保存）。</p>
-          </div>
-          <button id="openTimer" class="btn">Start</button>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <strong>Study Timer</strong>
+          <p class="sub">学習タイマー</p>
         </div>
-        <div class="card">
-          <div>
-            <strong>BGM</strong>
-            <p class="sub">雨音と一緒に流せる3曲のBGM。</p>
-          </div>
-          <button id="openBgm" class="btn">Open</button>
+        <button id="openTimer" class="btn">Start</button>
+      </div>
+      <div class="card">
+        <div>
+          <strong>BGM</strong>
+          <p class="sub">雨音と一緒に流せる3曲のBGM。</p>
         </div>
-        <div class="card">
-          <div>
-            <strong>Theme</strong>
-            <p class="sub">明るさ/彩度/コントラスト、ビネット強度を調整。</p>
-          </div>
-          <button class="btn" id="themeBtn">Adjust</button>
+        <button id="openBgm" class="btn">Open</button>
+      </div>
+      <div class="card">
+        <div>
+          <strong>Theme</strong>
+          <p class="sub">明るさ/彩度/コントラスト、ビネット強度を調整。</p>
         </div>
+        <button class="btn" id="themeBtn">Adjust</button>
       </div>
     </div>
-  </main>
+  </div>
+
+  <!-- カード下に広告 -->
+  <div style="margin-top:20px; text-align:center;">
+    <!-- admax -->
+    <script src="https://adm.shinobi.jp/s/991e0557411735ef8f8022f862852680"></script>
+    <!-- admax -->
+  </div>
+  <div style="margin-top:16px; text-align:center;">
+  <script src="https://adm.shinobi.jp/s/7453cb5cdcd1e5f016044037e55879da"></script>
+</div>
+</main>
+
 
   <!-- 環境音（ユーザー操作後に再生） -->
   <audio id="ambience" preload="auto" loop src="assets/audio/rain_loop.mp3"></audio>
@@ -218,6 +229,7 @@
       </table>
     </div>
   </section>
+ 
 
   <!-- =============== BGM Modal =============== -->
 <section class="modal" id="bgmModal" aria-hidden="true" aria-modal="true" role="dialog">
@@ -446,7 +458,7 @@ const elSeek = document.getElementById('bgmSeek');
 // 好きな曲名/ファイル名に変えてOK（assets/audio/ 以下）
 const BGM_TRACKS = [
   { title: 'Midnight Rain', src: 'assets/audio/canon.mp3' },
-  { title: 'Silent Drift', src: 'assets/audio/seishitauchu.mp3' },
+  { title: 'Silent Drift', src: 'assets/audio/relax_loop.mp3' },
   { title: 'Dreamscape', src: 'assets/audio/yume.mp3' },
 ];
 
