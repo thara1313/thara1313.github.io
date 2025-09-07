@@ -109,19 +109,51 @@
       #intro{display:none}
       .ripple{display:none}
       *{animation:none!important;transition:none!important}
+      @media (max-width: 600px){
+  /* 画面が縦長でも被写体をやや下寄りで見せる（必要に応じて%調整） */
+  #bgImage{ object-position: 50% 60%; }
+
+  /* スマホは文字の可読性優先で少しだけ明るめ＆コントラスト控えめ */
+  :root{
+    --bg-brightness: .78;
+    --bg-contrast: 1.06;
+    --bg-saturate: 1.00;
+  }
+
+  /* 楕円ビネットの重心を下げて中央を広く保つ */
+  .vignette2{
+    background: radial-gradient(900px 520px at 50% 65%,
+      rgba(0,0,0,0), rgba(0,0,0,.26) 58%, rgba(0,0,0,.52) 100%);
+  }
+}
+
     }
   </style>
 </head>
 <body>
   <!-- ============== 背景（画像版） ============== -->
 <div id="bg-img-wrap" aria-hidden="true">
-  <img id="bgImage" src="assets/img/bg.png" alt="" />
+  <picture>
+    <!-- スマホ：600px以下なら縦向けPNGを配信 -->
+    <source media="(max-width: 600px)" 
+            srcset="assets/img/bg_m_720.png 720w,
+                    assets/img/bg_m_1080.png 1080w,
+                    assets/img/bg_m_1440.png 1440w"
+            sizes="100vw">
+    <!-- PC/タブレット：横向けPNG -->
+    <img id="bgImage"
+         src="assets/img/bg_1920.png"
+         srcset="assets/img/bg.png 1280w,
+                 assets/img/bg.png 1920w,
+                 assets/img/bg.png 2560w"
+         sizes="100vw"
+         alt=""
+         decoding="async"
+         fetchpriority="high">
+  </picture>
   <div class="vignette2"></div>
 </div>
-    <div class="fog"></div>
-    <div class="vignette2"></div>
-    <div class="lamp"></div>
-  </div>
+
 
   <!-- イントロ（黒→雨ライン→ロゴ） -->
   <section id="intro" aria-label="intro animation">
