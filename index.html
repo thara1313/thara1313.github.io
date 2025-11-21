@@ -1,744 +1,552 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Raincafe</title>
-  <meta name="description" content="Raincafe — 雨と灯りの、静かな学び時間。" />
+  <meta charset="UTF-8" />
+  <title>Taito Harada | Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="コロナ禍の停滞から、渡米・編入・アプリ開発・FXを通して成長してきた留学生のストーリー" />
   <style>
-    /* ===== 基本色・フィルタ ===== */
-    :root{
-      --fg:#f3f5f7;
-      --fg-dim:#c9ced6;
-      --glass-bg:rgba(20,24,28,.35);
-      --accent:#6aa0ff;
-      --shadow:0 10px 30px rgba(0,0,0,.35);
-      --bg-brightness:.70; --bg-contrast:1.10; --bg-saturate:1.05;
+    /* ---------- Base ---------- */
+    :root {
+      --bg: #050810;
+      --bg-alt: #0b1020;
+      --card: #101728;
+      --accent: #f8b400;
+      --text: #f7f7fb;
+      --muted: #a6b0c3;
+      --border: #20263a;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; background:#0c0f13; color:var(--fg);
-      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: radial-gradient(circle at top, #131b32 0, #050810 55%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      width: min(1040px, 100% - 32px);
+      margin: 0 auto;
+      padding: 80px 0;
     }
 
-    /* ===== 背景 ===== */
-    #bg-img-wrap{position:fixed; inset:0; z-index:0; pointer-events:none}
-    #bgImage{
-      position:absolute; inset:0; min-width:100%; min-height:100%; object-fit:cover;
-      filter:brightness(var(--bg-brightness)) contrast(var(--bg-contrast)) saturate(var(--bg-saturate));
+    /* ---------- Nav ---------- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(5,8,16,0.95), rgba(5,8,16,0.75), transparent);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
-    .vignette2{
-      position:absolute; inset:0; pointer-events:none;
-      background:radial-gradient(1200px 600px at 50% 60%, rgba(0,0,0,0), rgba(0,0,0,.28) 60%, rgba(0,0,0,.55) 100%);
+    .nav-inner {
+      width: min(1040px, 100% - 32px);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
     }
-
-    /* ===== イントロ（最前面） ===== */
-    #intro{
-      position:fixed; inset:0; background:#07090c; display:grid; place-items:center;
-      z-index:100; transition:opacity .8s ease;
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: var(--muted);
     }
-    #rainCanvas{position:absolute; inset:0}
-    .logo{
-      position:relative; letter-spacing:.15em; text-transform:uppercase; font-weight:700;
-      font-size:clamp(28px,6vw,68px); opacity:0; transform:translateY(10px) scale(.98);
-      animation:logoIn 1.2s .8s ease forwards;
-      background:linear-gradient(180deg,#dfe9ff 0%,#9fbaff 50%,#7aa2ff 100%);
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-      filter:drop-shadow(0 6px 24px rgba(106,160,255,.25));
+    nav a {
+      margin-left: 18px;
+      font-size: 13px;
+      color: var(--muted);
+      opacity: 0.85;
     }
-    .logo::after{
-      content:""; position:absolute; inset:-6px; border-radius:16px; border:2px solid rgba(122,162,255,.15);
-      opacity:0; transform:scale(.8); animation:ripple 1.6s 1.1s ease-out forwards;
-    }
-    @keyframes logoIn{to{opacity:1; transform:translateY(0) scale(1)}}
-    @keyframes ripple{20%{opacity:1}100%{opacity:0; transform:scale(1.3)}}
-    .skip{
-      position:fixed; right:16px; bottom:16px; z-index:101; border:none; padding:10px 14px; border-radius:12px;
-      background:rgba(255,255,255,.08); color:var(--fg); backdrop-filter:blur(8px);
-      cursor:pointer; transition:opacity .2s, transform .2s;
-    }
-    .skip:hover{transform:translateY(-1px)}
-    .hide{opacity:0; pointer-events:none}
-
-    /* ===== トップバー ===== */
-    .topbar{
-      position:fixed; left:0; right:0; top:0; height:64px;
-      display:flex; align-items:center; justify-content:space-between; padding:0 18px;
-      background:linear-gradient(180deg,rgba(5,7,10,.65),rgba(5,7,10,0)); backdrop-filter:saturate(1.2) blur(6px);
-      z-index:4; transition:opacity .25s ease;
-    }
-    .brand{display:flex; gap:10px; align-items:center; font-weight:700; letter-spacing:.12em}
-    .chip{
-      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:14px;
-      background:rgba(255,255,255,.08); color:var(--fg); backdrop-filter:blur(8px);
-      box-shadow:var(--shadow); cursor:pointer; border:1px solid rgba(255,255,255,.08)
-    }
-    .row{display:flex; gap:12px; align-items:center}
-    .muted .dot{width:8px; height:8px; background:#999; border-radius:50%}
-    .playing .dot{width:8px; height:8px; background:#7bffb2; border-radius:50%}
-    .pmode{opacity:.9}
-    .chip.wallet{gap:6px}
-    .badge.coin{
-      display:inline-flex; align-items:center; justify-content:center; min-width:24px; height:24px; padding:0 8px;
-      border-radius:999px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.14)
+    nav a:hover {
+      color: var(--accent);
+      opacity: 1;
     }
 
-    /* ===== メインのガラスUI（Homeパネル） ===== */
-    main{height:100%; display:grid; place-items:center; padding:18px}
-    .glass{
-      width:min(900px,92vw); border-radius:22px; background:var(--glass-bg);
-      backdrop-filter:blur(14px) saturate(1.2); box-shadow:var(--shadow);
-      padding:28px; border:1px solid rgba(255,255,255,.08); margin-top:52px; position:relative; z-index:2;
-      transition:opacity .18s ease, transform .18s ease;
+    /* ---------- Hero ---------- */
+    .hero {
+      padding-top: 64px;
+      padding-bottom: 32px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: center;
     }
-    .glass.hidden{opacity:0; transform:translateY(8px) scale(.98); pointer-events:none}
-    .h1{font-size:clamp(18px,3.6vw,26px); margin:0 0 10px}
-    .sub{color:var(--fg-dim); margin:0 0 18px}
-    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:16px}
-    .card{
-      padding:16px; border-radius:18px; background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.08); min-height:108px; display:flex; flex-direction:column; justify-content:space-between
+    .hero-title {
+      font-size: clamp(32px, 5vw, 40px);
+      font-weight: 700;
+      margin-bottom: 16px;
     }
-    .btn{
-      display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px;
-      border:1px solid rgba(255,255,255,.12);
-      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
-      color:var(--fg); cursor:pointer; text-decoration:none
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(248,180,0,0.08);
+      border: 1px solid rgba(248,180,0,0.35);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 12px;
     }
-    .btn:hover{filter:brightness(1.06)}
-    .btn.ghost{background:transparent; border-color:rgba(255,255,255,.08)}
+    .hero-sub {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 520px;
+      margin-bottom: 18px;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .tag {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.09);
+      padding: 2px 10px;
+      font-size: 11px;
+      color: var(--muted);
+      background: rgba(0,0,0,0.23);
+    }
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 13px;
+      cursor: pointer;
+      background: var(--accent);
+      color: #1b1200;
+      font-weight: 600;
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+    }
+    .btn:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
 
-    /* ===== クリック波紋 ===== */
-    .ripple{
-      position:fixed; pointer-events:none; border-radius:999px; border:1px solid rgba(122,162,255,.35);
-      transform:translate(-50%,-50%); opacity:.8; animation:rip 650ms ease-out forwards; mix-blend-mode:screen
+    .hero-card {
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: radial-gradient(circle at top left, #202844, #0a0f1e);
+      padding: 18px 18px 20px;
+      box-shadow: 0 22px 45px rgba(0,0,0,0.65);
+      font-size: 13px;
     }
-    @keyframes rip{to{opacity:0; transform:translate(-50%,-50%) scale(6)}}
+    .hero-card h3 {
+      margin-top: 0;
+      font-size: 14px;
+    }
+    .hero-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .hero-card li {
+      margin-bottom: 6px;
+      color: var(--muted);
+    }
 
-    /* ===== モーダル ===== */
-    .modal[aria-hidden="true"]{display:none}
-    .modal{
-      position:fixed; inset:0; z-index:20; display:grid; place-items:center;
-      background:rgba(5,7,10,.45); backdrop-filter:blur(6px); animation:fadeIn .18s ease
+    /* ---------- Sections ---------- */
+    section {
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.03);
     }
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .modal-card{
-      width:min(860px,94vw); max-height:86vh; overflow:auto; background:rgba(20,24,28,.7);
-      border:1px solid rgba(255,255,255,.1); border-radius:20px; padding:18px 18px 20px; box-shadow:var(--shadow)
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
     }
-    .modal-head{
-      display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px;
-      position:sticky; top:0; background:inherit; padding-bottom:8px; backdrop-filter:inherit
+    .section-kicker {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
     }
-    .modal-title{font-weight:700; letter-spacing:.06em}
-    .close{border:none; background:rgba(255,255,255,.08); color:var(--fg); padding:8px 10px; border-radius:10px; cursor:pointer}
-    .hr{height:1px; background:rgba(255,255,255,.1); margin:10px 0 16px}
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 18px 18px 20px;
+      font-size: 14px;
+      color: var(--muted);
+    }
 
-    /* ===== Timer ===== */
-    .timer-face{font-variant-numeric:tabular-nums; letter-spacing:.04em; font-size:clamp(28px,6vw,56px); margin:8px 0 2px}
-    .timer-row{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
-    .timer-row .btn{padding:10px 16px}
-    .field{display:flex; flex-direction:column; gap:6px; margin:8px 0}
-    input[type="text"]{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:var(--fg); padding:10px 12px; border-radius:12px; width:100%}
-    table{width:100%; border-collapse:collapse; margin-top:10px}
-    th,td{padding:10px; border-bottom:1px solid rgba(255,255,255,.08); text-align:left}
-    th{color:var(--fg-dim); font-weight:600}
-    .empty{color:var(--fg-dim); text-align:center; padding:18px 8px}
+    /* Story accordion */
+    details {
+      background: rgba(5,8,16,0.7);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 10px 14px;
+      margin-bottom: 10px;
+    }
+    summary {
+      cursor: pointer;
+      list-style: none;
+      font-size: 13px;
+      color: var(--text);
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before {
+      content: "▶";
+      display: inline-block;
+      transform: scale(0.9);
+      margin-right: 6px;
+      color: var(--accent);
+      transition: transform 0.15s ease;
+    }
+    details[open] summary::before {
+      transform: rotate(90deg) scale(0.9);
+    }
+    details p {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
 
-    /* ===== BGMリスト（ボタン風） ===== */
-    .bgm-list{display:grid; gap:10px; margin-top:6px}
-    .track{
-      display:flex; align-items:center; gap:12px;
-      padding:12px 14px; border-radius:14px; background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12); cursor:pointer; user-select:none;
-      transition:transform .06s ease, filter .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
-      outline:none;
+    /* Timeline */
+    .timeline {
+      border-left: 1px solid rgba(255,255,255,0.1);
+      padding-left: 16px;
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
     }
-    .track::before{content:'▶'; opacity:.9; margin-right:4px; font-size:14px}
-    .track:hover{filter:brightness(1.06); transform:translateY(-1px)}
-    .track:active{transform:translateY(0); filter:brightness(.98)}
-    .track:focus-visible{box-shadow:0 0 0 2px rgba(106,160,255,.35); border-color:var(--accent)}
-    .track.active{
-      border-color:var(--accent);
-      background:linear-gradient(180deg,rgba(106,160,255,.12),rgba(255,255,255,.03));
-      box-shadow:inset 0 0 0 1px rgba(106,160,255,.22);
+    .tl-item {
+      margin-bottom: 16px;
+      position: relative;
     }
-    .track.active::before{content:'⏸'}
-    .track span:first-child{font-weight:600; letter-spacing:.02em}
-    .track .badge{
-      margin-left:auto; display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:26px; padding:0 8px;
-      border-radius:999px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.14); font-variant-numeric:tabular-nums;
+    .tl-item::before {
+      content: "";
+      position: absolute;
+      left: -9px;
+      top: 4px;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(248,180,0,0.15);
     }
-    .track.locked{opacity:.95}
-    .track.locked::before{content:'🔒'}
-    .track .buy{
-      margin-left:auto; padding:8px 10px; border-radius:10px;
-      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:var(--fg)
+    .tl-title {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
     }
-    .track .buy:hover{filter:brightness(1.06)}
-    .progress{height:6px; background:rgba(255,255,255,.12); border-radius:999px; overflow:hidden}
-    #bgmProg{display:block; height:100%; width:0% ; background:linear-gradient(90deg, var(--accent), rgba(255,255,255,.85))}
 
-    /* ===== 下ナビ（ボトムバー） ===== */
-    .bnav{
-      position:fixed; left:50%; bottom:16px; transform:translateX(-50%);
-      display:flex; gap:10px; padding:10px; border-radius:18px;
-      background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.14); backdrop-filter:blur(10px);
-      z-index:3; transition:opacity .25s ease;
+    /* List styles */
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
     }
-    .bnav button{
-      min-width:70px; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06); color:var(--fg); cursor:pointer
+    .pill {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      color: var(--muted);
     }
-    .bnav button:hover{filter:brightness(1.06)}
 
-    /* ===== ドック（パネルの出し入れ） ===== */
-    .dock{
-      position:fixed; left:50%; bottom:76px; transform:translateX(-50%);
-      z-index:3; display:inline-flex; align-items:center; gap:8px;
-      padding:10px 14px; border-radius:999px; background:rgba(255,255,255,.10); color:var(--fg);
-      border:1px solid rgba(255,255,255,.14); backdrop-filter:blur(8px); cursor:pointer; transition:filter .18s ease
+    /* Contact */
+    .contact-links a {
+      margin-right: 14px;
+      font-size: 13px;
     }
-    .dock:hover{filter:brightness(1.06)}
 
-    /* ===== メディアクエリ ===== */
-    @media (prefers-reduced-motion: reduce){
-      #intro{display:none}
-      .ripple{display:none}
-      *{animation:none!important; transition:none!important}
+    /* ---------- Footer ---------- */
+    footer {
+      padding: 30px 0 40px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      background: #04060c;
     }
-    @media (max-width: 600px){
-      #bgImage{object-position:50% 60%}
-      :root{ --bg-brightness:.78; --bg-contrast:1.06; --bg-saturate:1.00 }
-      .vignette2{
-        background:radial-gradient(900px 520px at 50% 65%,
-          rgba(0,0,0,0), rgba(0,0,0,.26) 58%, rgba(0,0,0,.52) 100%);
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 840px) {
+      .hero,
+      .two-col {
+        grid-template-columns: minmax(0, 1fr);
       }
+      .hero {
+        padding-top: 40px;
+      }
+      nav { display: none; }
+      .container { padding: 56px 0; }
     }
-
-    /* イントロ表示中はUIを隠す（JSでbodyに.intro-on付与） */
-    body.intro-on .topbar,
-    body.intro-on .bnav,
-    body.intro-on .dock{opacity:0; pointer-events:none}
   </style>
 </head>
-<body class="intro-on">
-  <!-- ===== 背景 ===== -->
-  <div id="bg-img-wrap" aria-hidden="true">
-    <picture>
-      <source media="(max-width: 600px)"
-              srcset="assets/img/bg_m_720.png 720w,
-                      assets/img/bg_m_1080.png 1080w,
-                      assets/img/bg_m_1440.png 1440w"
-              sizes="100vw">
-      <img id="bgImage"
-           src="assets/img/bg_1920.png"
-           srcset="assets/img/bg.png 1280w,
-                   assets/img/bg.png 1920w,
-                   assets/img/bg.png 2560w"
-           sizes="100vw" alt="" decoding="async" fetchpriority="high">
-    </picture>
-    <div class="vignette2"></div>
-  </div>
-
-  <!-- ===== イントロ ===== -->
-  <section id="intro" aria-label="intro animation">
-    <canvas id="rainCanvas"></canvas>
-    <div class="logo">Raincafe</div>
-    <button class="skip" id="skipIntro" title="Skip">Skip Intro ⏭</button>
-  </section>
-
-  <!-- ===== トップバー ===== -->
-  <header class="topbar">
-    <div class="brand">Raincafe</div>
-    <div class="row">
-      <button id="audioToggle" class="chip muted" aria-pressed="false" title="環境音 ON/OFF">
-        <span class="dot"></span><span>Sound</span>
-      </button>
-      <button id="walletBtn" class="chip wallet" title="DROP残高">💧 <span id="dropBal">0</span></button>
-      <button id="perfToggle" class="chip pmode" aria-pressed="false" title="低負荷モード">⚙️ <span>Low-Load</span></button>
+<body>
+  <header>
+    <div class="nav-inner">
+      <div class="logo">TAITO HARADA</div>
+      <nav>
+        <a href="#about">ABOUT</a>
+        <a href="#story">STORY</a>
+        <a href="#strengths">STRENGTHS</a>
+        <a href="#projects">PROJECTS</a>
+        <a href="#contact">CONTACT</a>
+      </nav>
     </div>
   </header>
 
-  <!-- ===== メイン（Homeパネル） ===== -->
-  <main>
-    <div class="glass" id="homePanel">
-      <h2 class="h1">静かな集中、やわらぐ灯り。</h2>
-      <p class="sub">タイマーやリーディング、あなたの“雨の日”をここから。</p>
-
-      <div class="grid">
-        <div class="card">
-          <div><strong>Study Timer</strong><p class="sub">学習タイマー</p></div>
-          <button id="openTimer" class="btn">Start</button>
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div>
+        <div class="hero-badge">STUDENT / DEVELOPER / PLAYER</div>
+        <h1 class="hero-title">Change the Field,<br>Change Myself.</h1>
+        <p class="hero-sub">
+          日本の大学を2年で退学し、コロナ禍の停滞から抜け出すために単身渡米。
+          Santa Monica Collegeを経て、現在はUC San Diegoで経済学・データ・アプリ開発に取り組んでいます。
+        </p>
+        <div class="hero-tags">
+          <span class="tag">高校サッカー東京都優勝</span>
+          <span class="tag">SMC GPA 3.8</span>
+          <span class="tag">UC San Diego</span>
+          <span class="tag">PiyoChess 開発</span>
+          <span class="tag">FXで資産2倍</span>
         </div>
-        <div class="card">
-          <div><strong>BGM</strong><p class="sub">雨音と一緒に流せるBGM</p></div>
-          <button id="openBgm" class="btn">Open</button>
-        </div>
-        <div class="card">
-          <div><strong>Theme</strong><p class="sub">明るさ/彩度/コントラスト、ビネット強度</p></div>
-          <button class="btn" id="themeBtn">Adjust</button>
+        <div class="hero-cta">
+          <a href="#story" class="btn">ストーリーを見る</a>
+          <a href="#projects" class="btn btn-outline">プロジェクト</a>
         </div>
       </div>
-    </div>
+      <aside class="hero-card">
+        <h3>Now</h3>
+        <ul>
+          <li>・UC San Diego に編入済み</li>
+          <li>・経済学・統計・プログラミングを中心に履修</li>
+          <li>・Flutter でチェスアプリ「PiyoChess」を開発し審査提出</li>
+          <li>・経済学の知識を使った FX トレードを継続</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="section-kicker">ABOUT</div>
+      <h2 class="section-title">ざっくり自己紹介</h2>
+      <div class="two-col">
+        <div class="card">
+          高校では、220人が所属する強豪サッカー部でレギュラーを獲得し、
+          高校2年生のときにはエースとして選手権大会に出場、東京都優勝に貢献しました。
+          一方、コロナ禍で始まった日本の大学生活では、オンライン授業中心で
+          サッカーも勉強も本気になれず、「このままでいいのか」という違和感を強く持つようになります。<br><br>
+          そこで大学を2年で退学し、環境ごと変えるために単身渡米。
+          Santa Monica Collegeで英語と数学に真正面から向き合い、最終的にGPA3.8を達成。
+          その後、UC San Diegoへ編入し、経済学・データ分析・アプリ開発・FX投資などを通して
+          「学びを実践につなげる」ことをテーマに活動しています。
+        </div>
+        <div class="card">
+          <strong>キーワード</strong>
+          <div class="pill-list">
+            <span class="pill">環境を変える決断力</span>
+            <span class="pill">自走力</span>
+            <span class="pill">サッカー</span>
+            <span class="pill">留学</span>
+            <span class="pill">経済学 × FX</span>
+            <span class="pill">アプリ開発</span>
+          </div>
+          <div style="margin-top:16px;">
+            <strong>学歴タイムライン</strong>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-title">高校</div>
+                <div>サッカー部220人の中でレギュラー・エースとして東京都優勝。</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-title">日本の大学（〜2年）</div>
+                <div>コロナ禍でオンライン中心。将来への違和感から退学を決意。</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-title">Santa Monica College</div>
+                <div>英語・数学に挑戦しつつ、最終GPA3.8でUCSD編入を決める。</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-title">UC San Diego</div>
+                <div>経済学・統計・プログラミングを学び、FXとアプリ開発に応用。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story (accordion with your long texts) -->
+    <section id="story">
+      <div class="section-kicker">STORY</div>
+      <h2 class="section-title">学歴ストーリー</h2>
+
+      <details>
+        <summary>1. コロナ禍での停滞と違和感</summary>
+        <p>
+          高校時代、私は220人が所属する強豪サッカー部でレギュラーをつかみ、高校2年生のときにはエースとして選手権大会に出場し、チームの東京都優勝に貢献しました。記事にも取り上げられ、毎日ボールを追いかけることが当たり前の生活でした。<br><br>
+          しかし、日本の大学に進学したタイミングでコロナ禍となり、授業はオンライン中心、部活も思うようにできず、気づけばゲームばかりの毎日になっていました。「このまま時間だけが過ぎていくのは嫌だ」と強く感じたことが、私の最初の転機でした。
+        </p>
+      </details>
+
+      <details>
+        <summary>2. 日本の大学を辞めて、単身渡米を決意</summary>
+        <p>
+          大学を2年で退学し、「環境ごと変える」という選択をして単身アメリカへ。
+          Santa Monica College（SMC）への進学準備では、情報収集、ビザ、住居探しなどすべてを自分で進める必要がありました。
+          何度もつまずきながらも、そのたびに自分で調べ、人に相談し、一つずつ壁を乗り越えていきました。
+        </p>
+      </details>
+
+      <details>
+        <summary>3. SMCでの英語：文法より「音」</summary>
+        <p>
+          SMCでは授業がすべて英語で進み、最初は聞き取れない表現も多く苦労しました。
+          そこで私は、日本の“文法中心”の英語教育ではあまり重視されてこなかった「発音」の重要性に気付きます。
+          単語の意味よりも、まず“音のつながりやリズム”を意識して聞き続けた結果、
+          以前は聞き取れなかった英語が少しずつ理解できるようになり、授業にもスムーズに入っていけるようになりました。
+        </p>
+      </details>
+
+      <details>
+        <summary>4. SMCでの数学：Precalculusとの戦い</summary>
+        <p>
+          一方で、最も大きな壁となったのが数学でした。高校時代に数学をほとんど学んでいなかったため、
+          Precalculusの授業では基礎不足を強く感じ、授業のスピードについていけずに悩む日々が続きました。
+          それでも諦めることはせず、教授のオフィスアワーに通って質問を重ねたり、キャンパスのTutorを頻繁に利用したりと、
+          できることはすべて試しました。完全に克服したとは言えませんが、“数学とはどういう考え方で成り立っているのか”
+          を初めて自分の感覚として理解できるようになり、最終的にはGPA3.8を達成することができました。
+        </p>
+      </details>
+
+      <details>
+        <summary>5. UCSD編入と、学びを実践へつなげる試み</summary>
+        <p>
+          編入準備では、履修計画、エッセイ、書類管理など多くのタスクを同時にこなしながら、
+          自分の歩みを英語で言語化していきました。その結果、UC San Diegoへの編入合格通知を受け取ったとき、
+          これまでの努力が形になったと実感しました。<br><br>
+          UCSDでは、経済学・統計・データ分析・プログラミングを中心に学び、
+          授業で学んだ理論をFXやアプリ開発に落とし込むことで、
+          「学ぶこと」と「使うこと」がつながっていく感覚を楽しんでいます。
+        </p>
+      </details>
+    </section>
+
+    <!-- Strengths -->
+    <section id="strengths">
+      <div class="section-kicker">STRENGTHS</div>
+      <h2 class="section-title">強み</h2>
+      <div class="two-col">
+        <div class="card">
+          <strong>環境を変える決断力</strong><br>
+          日本の大学を2年で退学し、単身でアメリカへ渡り、SMCからUCSDへの編入まで自分の意思で選択し続けてきました。<br><br>
+          <strong>自走力と継続力</strong><br>
+          英語・数学・プログラミング・FXと、どれも最初は初心者でしたが、
+          「分からないところはその日のうちに潰す」というスタンスで継続し、
+          GPA3.8やアプリの審査提出といった成果につなげてきました。
+        </div>
+        <div class="card">
+          <strong>データ・理論に基づく意思決定</strong><br>
+          経済学で学んだ金利差・インフレ・購買力平価などの知識をFXに応用し、
+          感情ではなくデータを基準に判断することで資産を約2倍に増やした経験があります。<br><br>
+          <strong>チームスポーツで鍛えたメンタル</strong><br>
+          220人のサッカー部でレギュラー・エースとしてプレーし、東京都優勝を経験。
+          競争とチームワークの両方を現場で体感してきました。
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="section-kicker">PROJECTS</div>
+      <h2 class="section-title">プロジェクト</h2>
+      <div class="two-col">
+        <div class="card">
+          <h3>PiyoChess – Flutter Chess App</h3>
+          <p>
+            完全未経験から独学で開発したチェスアプリ。FlutterでUIを構築し、
+            基本的なチェスの動きやゲームロジック、画面遷移、効果音などを自分で実装しました。
+            現在はApp Storeの審査に提出済みです。
+          </p>
+          <div class="pill-list">
+            <span class="pill">Flutter</span>
+            <span class="pill">Game Logic</span>
+            <span class="pill">UI/UX</span>
+            <span class="pill">App Store 審査</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>FX × Economics</h3>
+          <p>
+            UCSDで学んだマクロ経済・金利・インフレ・購買力平価などの知識を用いて為替相場を分析。
+            データと理論に基づいたトレードを行い、リスク管理を徹底しながら
+            個人資産を約2倍に増やした経験があります。
+          </p>
+          <div class="pill-list">
+            <span class="pill">Macroeconomics</span>
+            <span class="pill">Data Analysis</span>
+            <span class="pill">Risk Management</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section-kicker">CONTACT</div>
+      <h2 class="section-title">Contact</h2>
+      <div class="card">
+        <p>
+          一緒にプロジェクトをしたい方、留学・編入・アプリ開発・FXなどについて話してみたい方は、
+          気軽にご連絡ください。
+        </p>
+        <div class="contact-links">
+          <!-- 実際のアカウントに差し替えてください -->
+          <a href="mailto:yourmail@example.com">Email</a>
+          <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="#" target="_blank" rel="noopener">X / Instagram</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- ドック（パネルの出し入れ） -->
-  <button id="dock" class="dock" aria-expanded="true">🔽 パネルを隠す</button>
-
-  <!-- 下ナビ -->
-  <nav class="bnav" aria-label="bottom navigation">
-    <button id="navHome">Home</button>
-    <button id="navTimer">Timer</button>
-    <button id="navBgm">BGM</button>
-    <button id="navTheme">Theme</button>
-  </nav>
-
-  <!-- ===== オーディオ ===== -->
-  <audio id="ambience" preload="auto" loop src="assets/audio/rain_loop.mp3"></audio>
-  <audio id="bgm" preload="metadata"></audio>
-
-  <!-- ===== Timer Modal ===== -->
-  <section class="modal" id="timerModal" aria-hidden="true" aria-modal="true" role="dialog">
-    <div class="modal-card" role="document">
-      <div class="modal-head">
-        <div class="modal-title">Study Timer</div>
-        <button class="close" data-close="#timerModal">閉じる ✕</button>
-      </div>
-      <div class="hr"></div>
-
-      <div class="field">
-        <label for="taskInput">メモ/タグ（任意）</label>
-        <input id="taskInput" type="text" placeholder="例）微積・英単語・コーディング など">
-      </div>
-
-      <div class="timer-face" id="timerFace">00:00:00</div>
-      <div class="timer-row" style="margin:8px 0 12px">
-        <button class="btn" id="btnStart">▶ Start</button>
-        <button class="btn" id="btnPause" disabled>⏸ Pause</button>
-        <button class="btn ghost" id="btnReset" disabled>↺ Reset</button>
-        <button class="btn" id="btnSave" disabled>💾 Save</button>
-        <span class="sub" id="timerHint"></span>
-      </div>
-
-      <div class="hr"></div>
-      <div class="timer-row" style="justify-content:flex-end">
-        <button class="btn ghost" id="btnExport">⬇ CSVエクスポート</button>
-        <button class="btn ghost" id="btnClear">🗑 履歴を全削除</button>
-      </div>
-
-      <table id="histTable" aria-label="study history">
-        <thead><tr><th>開始</th><th>終了</th><th>経過</th><th>タグ</th><th></th></tr></thead>
-        <tbody id="histBody"><tr><td class="empty" colspan="5">まだ記録はありません。</td></tr></tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ===== BGM Modal ===== -->
-  <section class="modal" id="bgmModal" aria-hidden="true" aria-modal="true" role="dialog">
-    <div class="modal-card" role="document">
-      <div class="modal-head">
-        <div class="modal-title">BGM</div>
-        <button class="close" data-close="#bgmModal">閉じる ✕</button>
-      </div>
-      <div class="hr"></div>
-
-      <div class="bgm-row">
-        <div class="bgm-info">
-          <span class="badge coin">Now</span>
-          <span id="bgmNow" class="bgm-now">—</span>
-          <span id="bgmState" class="sub">(停止中)</span>
-        </div>
-      </div>
-
-      <div class="bgm-row" style="gap:8px">
-        <button class="btn" id="bgmPrev">⏮ 前へ</button>
-        <button class="btn" id="bgmPlay">▶ 再生</button>
-        <button class="btn" id="bgmNext">次へ ⏭</button>
-        <button class="btn ghost" id="bgmRepeat" title="リピート切替">リピート: Off</button>
-        <button class="btn ghost" id="bgmShuffle" title="シャッフル">シャッフル: Off</button>
-        <div class="row" style="margin-left:auto;gap:8px">
-          <span class="sub">音量</span>
-          <input id="bgmVol" type="range" min="0" max="1" step="0.01" style="width:160px">
-        </div>
-      </div>
-
-      <div class="progress" style="margin:8px 0 4px"><span id="bgmProg"></span></div>
-      <div class="row" style="justify-content:space-between">
-        <span id="bgmTime" class="sub">0:00 / 0:00</span>
-        <input id="bgmSeek" type="range" min="0" max="1000" value="0" step="1" style="width:50%">
-      </div>
-
-      <div class="hr"></div>
-      <div class="bgm-list" id="bgmList"></div>
-    </div>
-  </section>
-
-  <!-- ===== Theme Modal ===== -->
-  <section class="modal" id="themeModal" aria-hidden="true" aria-modal="true" role="dialog">
-    <div class="modal-card" role="document">
-      <div class="modal-head">
-        <div class="modal-title">Theme</div>
-        <button class="close" data-close="#themeModal">閉じる ✕</button>
-      </div>
-      <div class="hr"></div>
-
-      <div class="control"><label for="rangeBright">明るさ</label><input id="rangeBright" type="range" min="0.4" max="1.0" step="0.01"></div>
-      <div class="control"><label for="rangeContrast">コントラスト</label><input id="rangeContrast" type="range" min="1.0" max="1.4" step="0.01"></div>
-      <div class="control"><label for="rangeSaturate">彩度</label><input id="rangeSaturate" type="range" min="0.8" max="1.4" step="0.01"></div>
-      <div class="control"><label for="rangeVignette">ビネット（周辺減光）</label><input id="rangeVignette" type="range" min="0.0" max="0.8" step="0.01"></div>
-
-      <div class="hr"></div>
-      <div class="timer-row" style="justify-content:flex-end">
-        <button class="btn ghost" id="themeReset">リセット</button>
-        <button class="btn" id="themeSave">保存</button>
-      </div>
-      <p class="sub">保存すると次回以降もこの見た目で開きます。</p>
-    </div>
-  </section>
-
-  <!-- ===== Wallet Modal ===== -->
-  <section class="modal" id="walletModal" aria-hidden="true" aria-modal="true" role="dialog">
-    <div class="modal-card" role="document">
-      <div class="modal-head">
-        <div class="modal-title">DROP Wallet</div>
-        <button class="close" data-close="#walletModal">閉じる ✕</button>
-      </div>
-      <div class="hr"></div>
-      <p>現在の残高：<strong><span id="walletAmt">0</span> DROP</strong></p>
-      <ul>
-        <li>学習を保存：<strong>10分ごとに 1 DROP</strong></li>
-        <li>曲のアンロックに使用（無料曲以外）</li>
-      </ul>
-    </div>
-  </section>
+  <footer>
+    © <span id="year"></span> Taito Harada. All rights reserved.
+  </footer>
 
   <script>
-    /* ===== クリック波紋 ===== */
-    document.addEventListener('pointerdown', (e)=>{
-      if(e.button !== 0) return;
-      if(e.target.closest('button, a, .modal-card')) return;
-      const s = document.createElement('span');
-      s.className='ripple'; const size = 12;
-      s.style.width = s.style.height = size+'px';
-      s.style.left = e.clientX+'px'; s.style.top  = e.clientY+'px';
-      document.body.appendChild(s); s.addEventListener('animationend', ()=>s.remove());
-    });
-
-    /* ===== イントロ雨ライン ===== */
-    const intro = document.getElementById('intro');
-    const canvas = document.getElementById('rainCanvas');
-    const ctx = canvas.getContext('2d');
-    let W=canvas.width=innerWidth, H=canvas.height=innerHeight;
-    let perfLow = false; let drops = [];
-    const makeDrops = (n)=>{ drops.length=0; for(let i=0;i<n;i++){ drops.push({ x: Math.random()*W, y: Math.random()*-H, len: 50+Math.random()*120, spd: 600+Math.random()*900, thick: Math.random()*2.0+1.0, alpha: .15 + Math.random()*.2 }); }};
-    const tick = (()=>{
-      let prev=performance.now();
-      return function frame(){
-        const now=performance.now(), dt=(now-prev)/1000; prev=now;
-        ctx.clearRect(0,0,W,H); ctx.save();
-        ctx.strokeStyle='rgba(180,200,255,.25)'; ctx.lineCap='round';
-        for(const d of drops){
-          ctx.globalAlpha=d.alpha; ctx.lineWidth=d.thick; ctx.beginPath();
-          const dx = d.len*0.18; ctx.moveTo(d.x, d.y); ctx.lineTo(d.x+dx, d.y+d.len); ctx.stroke();
-          d.y += d.spd*dt; d.x += dx*(d.spd*dt/d.len);
-          if(d.y>H+40){ d.y = Math.random()*-H; d.x = Math.random()*W; }
-        }
-        ctx.restore();
-        if(!intro.classList.contains('hide')) requestAnimationFrame(frame);
-      }
-    })();
-    const startIntro = ()=>{
-      const base = perfLow ? 120 : 240; makeDrops(base); tick();
-      setTimeout(()=>{ endIntro(); }, 10000);
-    };
-    function endIntro(){
-      intro.classList.add('hide'); document.body.classList.remove('intro-on');
-      setTimeout(()=>intro.remove(),850);
-    }
-    addEventListener('resize', ()=>{ W=canvas.width=innerWidth; H=canvas.height=innerHeight; });
-    const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(!prefersReduced){ requestAnimationFrame(startIntro); } else { intro.remove(); document.body.classList.remove('intro-on'); }
-    document.getElementById('skipIntro')?.addEventListener('click', endIntro);
-
-    /* ===== サウンドON/OFF ===== */
-    const ambience = document.getElementById('ambience');
-    const audioToggle = document.getElementById('audioToggle');
-    let audioOn = false;
-    const setAudio = (on)=>{
-      audioOn = on;
-      audioToggle.setAttribute('aria-pressed', String(on));
-      audioToggle.classList.toggle('playing', on);
-      audioToggle.classList.toggle('muted', !on);
-      if(on){ ambience.volume = 0.55; ambience.play().catch(()=>{}); } else { ambience.pause(); ambience.currentTime=0; }
-    };
-    audioToggle.addEventListener('click', ()=> setAudio(!audioOn) );
-
-    /* ===== 低負荷モード ===== */
-    const perfToggle = document.getElementById('perfToggle');
-    perfToggle.addEventListener('click', ()=>{
-      perfLow = !perfLow;
-      perfToggle.setAttribute('aria-pressed', String(perfLow));
-      document.querySelector('.glass').style.backdropFilter = perfLow ? 'blur(8px) saturate(1.05)' : 'blur(14px) saturate(1.2)';
-    });
-
-    /* ===== ヘルパー ===== */
-    const $ = (sel, root=document)=>root.querySelector(sel);
-    const $$ = (sel, root=document)=>[...root.querySelectorAll(sel)];
-    const fmtTime = (sec)=>{ sec = Math.max(0, Math.floor(sec)); const h = String(Math.floor(sec/3600)).padStart(2,'0'); const m = String(Math.floor(sec%3600/60)).padStart(2,'0'); const s = String(sec%60).padStart(2,'0'); return `${h}:${m}:${s}`; };
-    const fmtDate = (d)=> new Intl.DateTimeFormat('ja-JP', {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(d);
-
-    /* ===== モーダル共通 ===== */
-    function openModal(id){ const el = $(id); if(!el) return; el.setAttribute('aria-hidden','false'); }
-    function closeModal(id){ const el = $(id); if(!el) return; el.setAttribute('aria-hidden','true'); }
-    document.addEventListener('click', (e)=>{
-      const btn = e.target.closest('[data-close]'); if(btn){ closeModal(btn.getAttribute('data-close')); }
-      const modal = e.target.closest('.modal'); if(modal && e.target === modal){ modal.setAttribute('aria-hidden','true'); }
-    });
-    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ $$('.modal').forEach(m => m.setAttribute('aria-hidden','true')); } });
-
-    /* ===== DROP: Wallet最小実装 ===== */
-    const WALLET_KEY = 'rc_wallet_v1';
-    function loadWallet(){ try{ return JSON.parse(localStorage.getItem(WALLET_KEY)) || {bal:0, owned:{tracks:[]}}; }catch{ return {bal:0, owned:{tracks:[]}}; } }
-    function saveWallet(w){ localStorage.setItem(WALLET_KEY, JSON.stringify(w)); }
-    function renderWallet(){ const w=loadWallet(); $('#dropBal').textContent = w.bal||0; $('#walletAmt') && ($('#walletAmt').textContent = w.bal||0); }
-    function addDrop(n){ const w=loadWallet(); w.bal = Math.max(0,(w.bal||0)+n); saveWallet(w); renderWallet(); return w.bal; }
-    function spendDrop(n){ const w=loadWallet(); if((w.bal||0) < n) return false; w.bal -= n; saveWallet(w); renderWallet(); return true; }
-    function ownTrack(i){ const w=loadWallet(); return (w.owned?.tracks||[]).includes(i); }
-    function grantTrack(i){ const w=loadWallet(); w.owned = w.owned||{tracks:[]}; if(!w.owned.tracks.includes(i)) w.owned.tracks.push(i); saveWallet(w); }
-    renderWallet();
-    $('#walletBtn')?.addEventListener('click', ()=> openModal('#walletModal'));
-
-    /* ===== Timer ===== */
-    const openTimer = $('#openTimer'), timerModal = $('#timerModal');
-    const face = $('#timerFace'), hint = $('#timerHint');
-    const btnStart = $('#btnStart'), btnPause = $('#btnPause'), btnReset = $('#btnReset'), btnSave = $('#btnSave');
-    const taskInput = $('#taskInput'), histBody = $('#histBody');
-    const btnExport = $('#btnExport'), btnClear = $('#btnClear');
-    const STORE = 'rc_sessions_v1';
-
-    let tStart=null, elapsed=0, handle=null, running=false;
-    const loadSessions = ()=> { try{ return JSON.parse(localStorage.getItem(STORE) || '[]'); } catch{ return []; } };
-    const saveSessions = (arr)=> localStorage.setItem(STORE, JSON.stringify(arr));
-
-    function renderHist(){
-      const data = loadSessions(); histBody.innerHTML = '';
-      if(!data.length){ const tr = document.createElement('tr'); tr.innerHTML = `<td class="empty" colspan="5">まだ記録はありません。</td>`; histBody.appendChild(tr); return; }
-      data.slice().reverse().forEach((r, idx)=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${fmtDate(new Date(r.start))}</td>
-          <td>${fmtDate(new Date(r.end))}</td>
-          <td>${fmtTime(r.duration)}</td>
-          <td>${(r.tag||'').replace(/[&<>]/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]))}</td>
-          <td><button class="btn ghost btn-del" data-i="${data.length-1-idx}">削除</button></td>`;
-        histBody.appendChild(tr);
-      });
-    }
-    function setState(){ face.textContent = fmtTime(elapsed); btnPause.disabled = !running; btnReset.disabled = !elapsed; btnSave.disabled = !elapsed || running; hint.textContent = running ? '計測中…' : (elapsed ? '一時停止中。保存または再開できます。' : ''); }
-    function tickTimer(){ const now = Date.now(); elapsed = Math.floor((now - tStart)/1000); setState(); }
-
-    btnStart.addEventListener('click', ()=>{ if(running) return; if(!tStart){ tStart = Date.now() - elapsed*1000; } handle = setInterval(tickTimer, 250); running = true; setState(); });
-    btnPause.addEventListener('click', ()=>{ if(!running) return; clearInterval(handle); handle=null; running = false; setState(); });
-    btnReset.addEventListener('click', ()=>{ clearInterval(handle); handle=null; running=false; elapsed=0; tStart=null; setState(); });
-    btnSave.addEventListener('click', ()=>{
-      const end = Date.now(); const start = tStart ?? (end - elapsed*1000);
-      const tag = taskInput.value.trim(); const rec = {start, end, duration: elapsed, tag};
-      const arr = loadSessions(); arr.push(rec); saveSessions(arr);
-      taskInput.value = ''; clearInterval(handle); handle=null; running=false; setState(); renderHist();
-      // ★ 学習時間でDROP付与（10分=1DROP）
-      const earn = Math.floor(elapsed/600); if(earn>0) addDrop(earn);
-      elapsed=0; tStart=null;
-    });
-    btnExport.addEventListener('click', ()=>{
-      const rows = loadSessions(); if(!rows.length) return;
-      const header = ['start','end','duration_sec','tag'];
-      const csv = [header.join(',')].concat(rows.map(r=>[
-        new Date(r.start).toISOString(), new Date(r.end).toISOString(), r.duration, `"${(r.tag||'').replace(/"/g,'""')}"`
-      ].join(','))).join('\n');
-      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'}); const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob); a.download = 'raincafe_study_history.csv'; a.click(); URL.revokeObjectURL(a.href);
-    });
-    histBody.addEventListener('click', (e)=>{
-      const b = e.target.closest('.btn-del'); if(!b) return;
-      const idx = Number(b.dataset.i); const arr = loadSessions();
-      if(!Number.isInteger(idx) || idx<0 || idx>=arr.length) return;
-      if(confirm('この記録を削除しますか？')){ arr.splice(idx,1); saveSessions(arr); renderHist(); }
-    });
-    btnClear.addEventListener('click', ()=>{ if(confirm('履歴をすべて削除しますか？')){ saveSessions([]); renderHist(); } });
-    $('#openTimer').addEventListener('click', ()=>{ renderHist(); setState(); openModal('#timerModal'); });
-
-    /* ===== BGM ===== */
-    const bgm = document.getElementById('bgm');
-    const openBgmBtn = document.getElementById('openBgm');
-    const elNow = document.getElementById('bgmNow');
-    const elState = document.getElementById('bgmState');
-    const elPlay = document.getElementById('bgmPlay');
-    const elPrev = document.getElementById('bgmPrev');
-    const elNext = document.getElementById('bgmNext');
-    const elRepeat = document.getElementById('bgmRepeat');
-    const elShuffle = document.getElementById('bgmShuffle');
-    const elVol = document.getElementById('bgmVol');
-    const elList = document.getElementById('bgmList');
-    const elProg = document.getElementById('bgmProg');
-    const elTime = document.getElementById('bgmTime');
-    const elSeek = document.getElementById('bgmSeek');
-
-    const BGM_TRACKS = [
-      { id:0, title: 'Midnight Rain', src: 'assets/audio/canon.mp3',          price: 0 },
-      { id:1, title: 'Silent Drift',  src: 'assets/audio/relax_loop.mp3',     price: 20 },
-      { id:2, title: 'Dreamscape',    src: 'assets/audio/yume.mp3',           price: 30 },
-    ];
-
-    const BGM_STORE = 'rc_bgm_state_v1';
-    function loadBgmState(){ try { return JSON.parse(localStorage.getItem(BGM_STORE)) || {idx:0, vol:0.7, shuffle:false, repeat:'off'}; } catch { return {idx:0, vol:0.7, shuffle:false, repeat:'off'}; } }
-    function saveBgmState(){ localStorage.setItem(BGM_STORE, JSON.stringify(state)); }
-    let state = loadBgmState();
-    bgm.volume = state.vol ?? 0.7; elVol.value = String(bgm.volume);
-
-    function setSrcByIdx(){
-      const t = BGM_TRACKS[state.idx]; if(!t) return;
-      const needs = bgm.src !== new URL(t.src, location.href).href;
-      if(needs){ bgm.src = t.src; }
-      elNow.textContent = t.title;
-      [...elList.children].forEach((li, i)=> li.classList.toggle('active', i===state.idx));
-    }
-    function setUiPlaying(on){
-      elPlay.textContent = on ? '⏸ 一時停止' : '▶ 再生';
-      elState.textContent = on ? '(再生中)' : '(停止中)';
-      [...elList.children].forEach((li,i)=> li.classList.toggle('active', on && i===state.idx));
-    }
-    function cycleRepeat(){
-      state.repeat = state.repeat === 'off' ? 'all' : state.repeat === 'all' ? 'one' : 'off';
-      elRepeat.textContent = `リピート: ${state.repeat[0].toUpperCase()+state.repeat.slice(1)}`;
-      saveBgmState();
-    }
-    function toggleShuffle(){ state.shuffle=!state.shuffle; elShuffle.textContent=`シャッフル: ${state.shuffle?'On':'Off'}`; saveBgmState(); }
-    function playIdx(i){
-      // 未購入なら再生不可 → モーダルで案内
-      const t=BGM_TRACKS[(i%BGM_TRACKS.length+BGM_TRACKS.length)%BGM_TRACKS.length];
-      if(t.price>0 && !ownTrack(t.id)){ openModal('#bgmModal'); return; }
-      state.idx = ((i % BGM_TRACKS.length) + BGM_TRACKS.length) % BGM_TRACKS.length; saveBgmState();
-      setSrcByIdx(); bgm.play().then(()=> setUiPlaying(true)).catch(()=>{});
-    }
-    function nextIdx(){
-      if(state.shuffle){
-        let n; do { n = Math.floor(Math.random()*BGM_TRACKS.length); } while(n===state.idx && BGM_TRACKS.length>1);
-        playIdx(n);
-      }else{
-        const atEnd = state.idx >= BGM_TRACKS.length-1;
-        if(atEnd && state.repeat==='off'){ setUiPlaying(false); bgm.pause(); return; }
-        playIdx(atEnd ? 0 : state.idx+1);
-      }
-    }
-    function prevIdx(){
-      if(state.shuffle){
-        let n; do { n = Math.floor(Math.random()*BGM_TRACKS.length); } while(n===state.idx && BGM_TRACKS.length>1);
-        playIdx(n);
-      }else{
-        const atStart = state.idx <= 0; playIdx(atStart ? (BGM_TRACKS.length-1) : state.idx-1);
-      }
-    }
-    function fmtMinSec(x){ if(!isFinite(x)||x<0) return '0:00'; const m=Math.floor(x/60), s=Math.floor(x%60); return `${m}:${String(s).padStart(2,'0')}`; }
-
-    function renderList(){
-      elList.innerHTML = '';
-      BGM_TRACKS.forEach((t, i)=>{
-        const li = document.createElement('div');
-        const isOwned = t.price===0 || ownTrack(t.id);
-        li.className = 'track' + (state.idx===i?' active':'') + (isOwned?'':' locked');
-
-        if(isOwned){
-          li.innerHTML = `<span>${t.title}</span><span class="badge">${t.price===0?'FREE':'OWN'}</span>`;
-          li.addEventListener('click', ()=> playIdx(i));
-        }else{
-          li.innerHTML = `<span>${t.title}</span>
-            <button class="buy" data-i="${i}">Unlock ${t.price}💧</button>`;
-          li.querySelector('.buy').addEventListener('click', (e)=>{
-            e.stopPropagation();
-            if(spendDrop(t.price)){ grantTrack(t.id); renderList(); playIdx(i); }
-            else{ openModal('#walletModal'); }
-          });
-        }
-        elList.appendChild(li);
-      });
-    }
-
-    // 初期化
-    renderList(); setSrcByIdx();
-    elRepeat.textContent = `リピート: ${state.repeat[0].toUpperCase()+state.repeat.slice(1)}`;
-    elShuffle.textContent = `シャッフル: ${state.shuffle ? 'On' : 'Off'}`;
-    setUiPlaying(false);
-
-    // イベント
-    openBgmBtn.addEventListener('click', ()=> openModal('#bgmModal'));
-    elPlay.addEventListener('click', ()=>{ if(bgm.paused){ setSrcByIdx(); bgm.play().then(()=> setUiPlaying(true)).catch(()=>{}); } else { bgm.pause(); setUiPlaying(false); } });
-    elNext.addEventListener('click', nextIdx);
-    elPrev.addEventListener('click', prevIdx);
-    elRepeat.addEventListener('click', cycleRepeat);
-    elShuffle.addEventListener('click', toggleShuffle);
-    elVol.addEventListener('input', ()=>{ bgm.volume = Number(elVol.value); state.vol = bgm.volume; saveBgmState(); });
-
-    bgm.addEventListener('timeupdate', ()=>{
-      const cur = bgm.currentTime||0, dur = isFinite(bgm.duration)? bgm.duration : 0;
-      elTime.textContent = `${fmtMinSec(cur)} / ${fmtMinSec(dur)}`;
-      const p = dur ? Math.min(100, Math.max(0, (cur/dur)*100)) : 0;
-      elProg.style.width = p.toFixed(2)+'%';
-      elSeek.value = String(Math.round((p/100)*1000));
-    });
-    elSeek.addEventListener('input', ()=>{ const v = Number(elSeek.value)/1000; if(isFinite(bgm.duration) && bgm.duration>0){ bgm.currentTime = bgm.duration * v; } });
-    bgm.addEventListener('ended', ()=>{ if(state.repeat==='one'){ playIdx(state.idx); return; } if(state.repeat==='all' || state.shuffle || state.idx < BGM_TRACKS.length-1){ nextIdx(); } else { setUiPlaying(false); } });
-
-    /* ===== Theme ===== */
-    const themeKey = 'rc_theme_v1';
-    const rangeBright = $('#rangeBright'), rangeContrast = $('#rangeContrast'), rangeSaturate = $('#rangeSaturate'), rangeVignette = $('#rangeVignette');
-    const vignetteEl = $('.vignette2');
-    function applyTheme(t){
-      document.documentElement.style.setProperty('--bg-brightness', t.brightness);
-      document.documentElement.style.setProperty('--bg-contrast', t.contrast);
-      document.documentElement.style.setProperty('--bg-saturate', t.saturate);
-      const alpha = Number(t.vignette);
-      vignetteEl.style.background = `radial-gradient(1200px 600px at 50% 60%, rgba(0,0,0,0), rgba(0,0,0,${Math.min(0.25, alpha*0.45).toFixed(3)}) 60%, rgba(0,0,0,${alpha.toFixed(3)}) 100%)`;
-    }
-    function loadTheme(){ try{ return JSON.parse(localStorage.getItem(themeKey)) || {brightness:.7, contrast:1.1, saturate:1.05, vignette:.55}; }catch{ return {brightness:.7, contrast:1.1, saturate:1.05, vignette:.55}; } }
-    function syncThemeUI(t){ rangeBright.value = t.brightness; rangeContrast.value = t.contrast; rangeSaturate.value = t.saturate; rangeVignette.value = t.vignette; }
-    function currentThemeFromUI(){ return { brightness: Number(rangeBright.value), contrast: Number(rangeContrast.value), saturate: Number(rangeSaturate.value), vignette: Number(rangeVignette.value) }; }
-    applyTheme(loadTheme());
-    $('#themeBtn').addEventListener('click', ()=>{ const t = loadTheme(); syncThemeUI(t); openModal('#themeModal'); });
-    rangeBright.addEventListener('input', ()=> applyTheme(currentThemeFromUI()));
-    rangeContrast.addEventListener('input', ()=> applyTheme(currentThemeFromUI()));
-    rangeSaturate.addEventListener('input', ()=> applyTheme(currentThemeFromUI()));
-    rangeVignette.addEventListener('input', ()=> applyTheme(currentThemeFromUI()));
-    $('#themeSave').addEventListener('click', ()=>{ localStorage.setItem(themeKey, JSON.stringify(currentThemeFromUI())); closeModal('#themeModal'); });
-    $('#themeReset').addEventListener('click', ()=>{ const d = {brightness:.7, contrast:1.1, saturate:1.05, vignette:.55}; syncThemeUI(d); applyTheme(d); });
-
-    /* ===== Homeパネル：ドック（出し入れ） & 下ナビ ===== */
-    const dock = document.getElementById('dock');
-    const glass = document.getElementById('homePanel');
-    const UI_STORE = 'rc_ui_state_v1';
-    function saveUi(){ localStorage.setItem(UI_STORE, JSON.stringify({hidden:glass.classList.contains('hidden')})); }
-    function loadUi(){ try{ return JSON.parse(localStorage.getItem(UI_STORE))||{hidden:false}; }catch{ return {hidden:false}; } }
-    (function initPanel(){
-      const ui=loadUi();
-      if(ui.hidden) glass.classList.add('hidden');
-      dock.textContent = glass.classList.contains('hidden') ? '🔼 パネルを表示' : '🔽 パネルを隠す';
-      dock.setAttribute('aria-expanded', String(!glass.classList.contains('hidden')));
-    })();
-    dock.addEventListener('click', ()=>{
-      glass.classList.toggle('hidden');
-      dock.textContent = glass.classList.contains('hidden') ? '🔼 パネルを表示' : '🔽 パネルを隠す';
-      dock.setAttribute('aria-expanded', String(!glass.classList.contains('hidden')));
-      saveUi();
-    });
-
-    // 下ナビ
-    $('#navHome').addEventListener('click', ()=>{ glass.classList.remove('hidden'); saveUi(); });
-    $('#navTimer').addEventListener('click', ()=>{ renderHist(); setState(); openModal('#timerModal'); });
-    $('#navBgm').addEventListener('click', ()=> openModal('#bgmModal'));
-    $('#navTheme').addEventListener('click', ()=>{ const t = loadTheme(); syncThemeUI(t); openModal('#themeModal'); });
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
+
 
 
