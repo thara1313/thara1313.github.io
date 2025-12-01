@@ -1,550 +1,307 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Taito Harada | Portfolio</title>
+  <title>UCSD Transportation: Electric vs. Gas Buses</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="コロナ禍の停滞から、渡米・編入・アプリ開発・FXを通して成長してきた留学生のストーリー" />
   <style>
-    /* ---------- Base ---------- */
-    :root {
-      --bg: #050810;
-      --bg-alt: #0b1020;
-      --card: #101728;
-      --accent: #f8b400;
-      --text: #f7f7fb;
-      --muted: #a6b0c3;
-      --border: #20263a;
-    }
-    * { box-sizing: border-box; }
     body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-      background: radial-gradient(circle at top, #131b32 0, #050810 55%);
-      color: var(--text);
-      line-height: 1.7;
+      background: #f5f7fb;
+      color: #222;
+      line-height: 1.6;
     }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    .container {
-      width: min(1040px, 100% - 32px);
-      margin: 0 auto;
-      padding: 80px 0;
-    }
-
-    /* ---------- Nav ---------- */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(14px);
-      background: linear-gradient(to bottom, rgba(5,8,16,0.95), rgba(5,8,16,0.75), transparent);
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      background: #00356b;
+      color: white;
+      padding: 1.5rem 1rem;
     }
-    .nav-inner {
-      width: min(1040px, 100% - 32px);
+    header .title {
+      max-width: 1000px;
       margin: 0 auto;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 10px 0;
+      gap: 1rem;
     }
-    .logo {
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      font-size: 14px;
-      text-transform: uppercase;
-      color: var(--muted);
+    header img {
+      max-height: 52px;
+    }
+    header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.8rem;
+    }
+    header h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+    nav {
+      background: #e7edf6;
+      border-bottom: 1px solid #d1d9e6;
+    }
+    nav ul {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0.4rem 1rem;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
     nav a {
-      margin-left: 18px;
-      font-size: 13px;
-      color: var(--muted);
-      opacity: 0.85;
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: #00356b;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
     }
     nav a:hover {
-      color: var(--accent);
-      opacity: 1;
+      background: #cbd6ec;
     }
-
-    /* ---------- Hero ---------- */
-    .hero {
-      padding-top: 64px;
-      padding-bottom: 32px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-      gap: 40px;
-      align-items: center;
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
     }
-    .hero-title {
-      font-size: clamp(32px, 5vw, 40px);
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(248,180,0,0.08);
-      border: 1px solid rgba(248,180,0,0.35);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .hero-sub {
-      color: var(--muted);
-      font-size: 14px;
-      max-width: 520px;
-      margin-bottom: 18px;
-    }
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 20px;
-    }
-    .tag {
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.09);
-      padding: 2px 10px;
-      font-size: 11px;
-      color: var(--muted);
-      background: rgba(0,0,0,0.23);
-    }
-    .hero-cta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 9px 18px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-size: 13px;
-      cursor: pointer;
-      background: var(--accent);
-      color: #1b1200;
-      font-weight: 600;
-    }
-    .btn-outline {
-      background: transparent;
-      border-color: rgba(255,255,255,0.18);
-      color: var(--text);
-    }
-    .btn-outline:hover {
-      border-color: var(--accent);
-    }
-    .btn:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-    }
-
-    .hero-card {
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: radial-gradient(circle at top left, #202844, #0a0f1e);
-      padding: 18px 18px 20px;
-      box-shadow: 0 22px 45px rgba(0,0,0,0.65);
-      font-size: 13px;
-    }
-    .hero-card h3 {
-      margin-top: 0;
-      font-size: 14px;
-    }
-    .hero-card ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
-    }
-    .hero-card li {
-      margin-bottom: 6px;
-      color: var(--muted);
-    }
-
-    /* ---------- Sections ---------- */
     section {
-      padding: 40px 0;
-      border-top: 1px solid rgba(255,255,255,0.03);
+      background: white;
+      border-radius: 12px;
+      padding: 1.3rem 1.4rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+      border: 1px solid #e1e4ee;
     }
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .section-kicker {
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 4px;
+    section h3 {
+      margin-top: 0;
+      color: #00356b;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #e4e7f2;
+      padding-bottom: 0.35rem;
+      margin-bottom: 0.7rem;
     }
     .two-col {
       display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 24px;
-      align-items: flex-start;
+      grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
+      gap: 1rem;
     }
-    .card {
-      background: var(--card);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 18px 18px 20px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    /* Story accordion */
-    details {
-      background: rgba(5,8,16,0.7);
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 10px 14px;
-      margin-bottom: 10px;
-    }
-    summary {
-      cursor: pointer;
-      list-style: none;
-      font-size: 13px;
-      color: var(--text);
-    }
-    summary::-webkit-details-marker { display: none; }
-    summary::before {
-      content: "▶";
-      display: inline-block;
-      transform: scale(0.9);
-      margin-right: 6px;
-      color: var(--accent);
-      transition: transform 0.15s ease;
-    }
-    details[open] summary::before {
-      transform: rotate(90deg) scale(0.9);
-    }
-    details p {
-      margin-top: 8px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    /* Timeline */
-    .timeline {
-      border-left: 1px solid rgba(255,255,255,0.1);
-      padding-left: 16px;
-      margin-top: 10px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .tl-item {
-      margin-bottom: 16px;
-      position: relative;
-    }
-    .tl-item::before {
-      content: "";
-      position: absolute;
-      left: -9px;
-      top: 4px;
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(248,180,0,0.15);
-    }
-    .tl-title {
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 2px;
-    }
-
-    /* List styles */
-    .pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-    .pill {
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.09);
-      color: var(--muted);
-    }
-
-    /* Contact */
-    .contact-links a {
-      margin-right: 14px;
-      font-size: 13px;
-    }
-
-    /* ---------- Footer ---------- */
-    footer {
-      padding: 30px 0 40px;
-      text-align: center;
-      font-size: 11px;
-      color: var(--muted);
-      border-top: 1px solid rgba(255,255,255,0.05);
-      background: #04060c;
-    }
-
-    /* ---------- Responsive ---------- */
-    @media (max-width: 840px) {
-      .hero,
+    @media (max-width: 768px) {
       .two-col {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: 1fr;
       }
-      .hero {
-        padding-top: 40px;
+      header .title {
+        flex-direction: column;
+        align-items: flex-start;
       }
-      nav { display: none; }
-      .container { padding: 56px 0; }
+    }
+    ul {
+      padding-left: 1.2rem;
+      margin: 0.25rem 0;
+    }
+    .badge-list span {
+      display: inline-block;
+      font-size: 0.8rem;
+      background: #eef2fb;
+      color: #00356b;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      margin: 0.2rem 0.2rem 0 0;
+    }
+    .figure-placeholder {
+      border-radius: 10px;
+      border: 1px dashed #c4cce0;
+      padding: 0.75rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #6b7280;
+      background: #f8f9ff;
+    }
+    .figure-placeholder img {
+      max-width: 100%;
+      border-radius: 8px;
+      display: block;
+      margin: 0 auto;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #6b7280;
+      padding: 1rem 0 2rem;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="nav-inner">
-      <div class="logo">TAITO HARADA</div>
-      <nav>
-        <a href="#about">ABOUT</a>
-        <a href="#story">STORY</a>
-        <a href="#strengths">STRENGTHS</a>
-        <a href="#projects">PROJECTS</a>
-        <a href="#contact">CONTACT</a>
-      </nav>
+    <div class="title">
+      <!-- ロゴを使わないならこの img 行は削除してOK -->
+      <img src="assets/ucsd-logo.png" alt="UC San Diego logo" />
+      <div>
+        <h1>Investigating UCSD’s Transportation System: Electric vs. Gas Buses</h1>
+        <h2>Herbert Wertheim School of Public Health &amp; Human Longevity Science – Student Project</h2>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <!-- Hero -->
-    <section class="hero" id="top">
-      <div>
-        <div class="hero-badge">STUDENT / DEVELOPER / PLAYER</div>
-        <h1 class="hero-title">Change the Field,<br>Change Myself.</h1>
-        <p class="hero-sub">
-          日本の大学を2年で退学し、コロナ禍の停滞から抜け出すために単身渡米。
-          Santa Monica Collegeを経て、現在はUC San Diegoで経済学・データ・アプリ開発に取り組んでいます。
-        </p>
-        <div class="hero-tags">
-          <span class="tag">高校サッカー東京都優勝</span>
-          <span class="tag">SMC GPA 3.8</span>
-          <span class="tag">UC San Diego</span>
-          <span class="tag">PiyoChess 開発</span>
-          <span class="tag">FXで資産2倍</span>
-        </div>
-        <div class="hero-cta">
-          <a href="#story" class="btn">ストーリーを見る</a>
-          <a href="#projects" class="btn btn-outline">プロジェクト</a>
-        </div>
-      </div>
-      <aside class="hero-card">
-        <h3>Now</h3>
-        <ul>
-          <li>・UC San Diego に編入済み</li>
-          <li>・経済学・統計・プログラミングを中心に履修</li>
-          <li>・Flutter でチェスアプリ「PiyoChess」を開発し審査提出</li>
-          <li>・経済学の知識を使った FX トレードを継続</li>
-        </ul>
-      </aside>
+  <nav>
+    <ul>
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#methods">Materials &amp; Methods</a></li>
+      <li><a href="#policy">Policy Analysis</a></li>
+      <li><a href="#comparison">UCSD vs. UCI</a></li>
+      <li><a href="#data">Data &amp; Figures</a></li>
+      <li><a href="#team">Team</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- ABSTRACT -->
+    <section id="abstract">
+      <h3>Abstract</h3>
+      <p>
+        This project investigates how UC San Diego can improve the reliability of its bus fleet and
+        make better use of electric shuttles while moving toward long-term zero-emission goals.
+        We compare UCSD’s current shuttle system with University of California policies and
+        California zero-emission bus regulations, and we benchmark UCSD against another UC campus,
+        UC Irvine.
+      </p>
+      <p>
+        Our early findings show that UCSD’s electric bus adoption is still low
+        (6 electric buses out of 30 total), which puts the campus far behind UC
+        system expectations and state-level sustainability targets. This website
+        summarizes our methods, key data, and main insights.
+      </p>
     </section>
 
-    <!-- About -->
-    <section id="about">
-      <div class="section-kicker">ABOUT</div>
-      <h2 class="section-title">ざっくり自己紹介</h2>
+    <!-- MATERIALS & METHODS -->
+    <section id="methods">
+      <h3>Materials &amp; Methods</h3>
       <div class="two-col">
-        <div class="card">
-          高校では、220人が所属する強豪サッカー部でレギュラーを獲得し、
-          高校2年生のときにはエースとして選手権大会に出場、東京都優勝に貢献しました。
-          一方、コロナ禍で始まった日本の大学生活では、オンライン授業中心で
-          サッカーも勉強も本気になれず、「このままでいいのか」という違和感を強く持つようになります。<br><br>
-          そこで大学を2年で退学し、環境ごと変えるために単身渡米。
-          Santa Monica Collegeで英語と数学に真正面から向き合い、最終的にGPA3.8を達成。
-          その後、UC San Diegoへ編入し、経済学・データ分析・アプリ開発・FX投資などを通して
-          「学びを実践につなげる」ことをテーマに活動しています。
+        <div>
+          <ul>
+            <li>Surveys from UCSD Transportation Services</li>
+            <li>Interview with the General Manager of UCSD Transportation</li>
+            <li>University of California Sustainability Report (2024)</li>
+            <li>UC Irvine Anteater Express website and route maps</li>
+            <li>California Air Resources Board (ICT / ZEB regulations)</li>
+            <li>Triton Transit TransLoc app &amp; route tracking</li>
+            <li>Anteater Express live bus tracking map</li>
+          </ul>
         </div>
-        <div class="card">
-          <strong>キーワード</strong>
-          <div class="pill-list">
-            <span class="pill">環境を変える決断力</span>
-            <span class="pill">自走力</span>
-            <span class="pill">サッカー</span>
-            <span class="pill">留学</span>
-            <span class="pill">経済学 × FX</span>
-            <span class="pill">アプリ開発</span>
-          </div>
-          <div style="margin-top:16px;">
-            <strong>学歴タイムライン</strong>
-            <div class="timeline">
-              <div class="tl-item">
-                <div class="tl-title">高校</div>
-                <div>サッカー部220人の中でレギュラー・エースとして東京都優勝。</div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-title">日本の大学（〜2年）</div>
-                <div>コロナ禍でオンライン中心。将来への違和感から退学を決意。</div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-title">Santa Monica College</div>
-                <div>英語・数学に挑戦しつつ、最終GPA3.8でUCSD編入を決める。</div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-title">UC San Diego</div>
-                <div>経済学・統計・プログラミングを学び、FXとアプリ開発に応用。</div>
-              </div>
-            </div>
+        <div>
+          <ul>
+            <li>Policy document review and summary</li>
+            <li>Descriptive statistics on fleet size and ridership</li>
+            <li>Percentage comparisons against UCOP and CARB targets</li>
+            <li>Visual comparison of shuttle routes (UCSD vs. UCI)</li>
+          </ul>
+          <div class="badge-list">
+            <span>Policy analysis</span><span>Survey data</span><span>Route mapping</span>
+            <span>Comparative case study</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Story (accordion with your long texts) -->
-    <section id="story">
-      <div class="section-kicker">STORY</div>
-      <h2 class="section-title">学歴ストーリー</h2>
-
-      <details>
-        <summary>1. コロナ禍での停滞と違和感</summary>
-        <p>
-          高校時代、私は220人が所属する強豪サッカー部でレギュラーをつかみ、高校2年生のときにはエースとして選手権大会に出場し、チームの東京都優勝に貢献しました。記事にも取り上げられ、毎日ボールを追いかけることが当たり前の生活でした。<br><br>
-          しかし、日本の大学に進学したタイミングでコロナ禍となり、授業はオンライン中心、部活も思うようにできず、気づけばゲームばかりの毎日になっていました。「このまま時間だけが過ぎていくのは嫌だ」と強く感じたことが、私の最初の転機でした。
-        </p>
-      </details>
-
-      <details>
-        <summary>2. 日本の大学を辞めて、単身渡米を決意</summary>
-        <p>
-          大学を2年で退学し、「環境ごと変える」という選択をして単身アメリカへ。
-          Santa Monica College（SMC）への進学準備では、情報収集、ビザ、住居探しなどすべてを自分で進める必要がありました。
-          何度もつまずきながらも、そのたびに自分で調べ、人に相談し、一つずつ壁を乗り越えていきました。
-        </p>
-      </details>
-
-      <details>
-        <summary>3. SMCでの英語：文法より「音」</summary>
-        <p>
-          SMCでは授業がすべて英語で進み、最初は聞き取れない表現も多く苦労しました。
-          そこで私は、日本の“文法中心”の英語教育ではあまり重視されてこなかった「発音」の重要性に気付きます。
-          単語の意味よりも、まず“音のつながりやリズム”を意識して聞き続けた結果、
-          以前は聞き取れなかった英語が少しずつ理解できるようになり、授業にもスムーズに入っていけるようになりました。
-        </p>
-      </details>
-
-      <details>
-        <summary>4. SMCでの数学：Precalculusとの戦い</summary>
-        <p>
-          一方で、最も大きな壁となったのが数学でした。高校時代に数学をほとんど学んでいなかったため、
-          Precalculusの授業では基礎不足を強く感じ、授業のスピードについていけずに悩む日々が続きました。
-          それでも諦めることはせず、教授のオフィスアワーに通って質問を重ねたり、キャンパスのTutorを頻繁に利用したりと、
-          できることはすべて試しました。完全に克服したとは言えませんが、“数学とはどういう考え方で成り立っているのか”
-          を初めて自分の感覚として理解できるようになり、最終的にはGPA3.8を達成することができました。
-        </p>
-      </details>
-
-      <details>
-        <summary>5. UCSD編入と、学びを実践へつなげる試み</summary>
-        <p>
-          編入準備では、履修計画、エッセイ、書類管理など多くのタスクを同時にこなしながら、
-          自分の歩みを英語で言語化していきました。その結果、UC San Diegoへの編入合格通知を受け取ったとき、
-          これまでの努力が形になったと実感しました。<br><br>
-          UCSDでは、経済学・統計・データ分析・プログラミングを中心に学び、
-          授業で学んだ理論をFXやアプリ開発に落とし込むことで、
-          「学ぶこと」と「使うこと」がつながっていく感覚を楽しんでいます。
-        </p>
-      </details>
+    <!-- POLICY ANALYSIS -->
+    <section id="policy">
+      <h3>UC &amp; State Policy Analysis</h3>
+      <p>
+        UC Policy states that campuses should move toward <strong>100% zero-emission fleets by 2045</strong>.
+        Under the UCOP Sustainable Practices Policy, all new fleet vehicle purchases are expected to be
+        zero-emission by <strong>2027</strong>.
+      </p>
+      <p>
+        UCSD currently operates <strong>6 electric buses out of 30 total</strong>, which is
+        about <strong>20% electrification</strong>. Compared to the UC system’s expectation of 100% ZEV
+        for new fleet purchases, UCSD is roughly <strong>80 percentage points behind</strong>.
+      </p>
+      <p>
+        This gap suggests that UCSD must significantly accelerate its transition planning, expand
+        charging infrastructure, and make better use of the electric shuttles that already exist.
+      </p>
     </section>
 
-    <!-- Strengths -->
-    <section id="strengths">
-      <div class="section-kicker">STRENGTHS</div>
-      <h2 class="section-title">強み</h2>
+    <!-- COMPARISON -->
+    <section id="comparison">
+      <h3>Comparing UCSD with UCI</h3>
       <div class="two-col">
-        <div class="card">
-          <strong>環境を変える決断力</strong><br>
-          日本の大学を2年で退学し、単身でアメリカへ渡り、SMCからUCSDへの編入まで自分の意思で選択し続けてきました。<br><br>
-          <strong>自走力と継続力</strong><br>
-          英語・数学・プログラミング・FXと、どれも最初は初心者でしたが、
-          「分からないところはその日のうちに潰す」というスタンスで継続し、
-          GPA3.8やアプリの審査提出といった成果につなげてきました。
-        </div>
-        <div class="card">
-          <strong>データ・理論に基づく意思決定</strong><br>
-          経済学で学んだ金利差・インフレ・購買力平価などの知識をFXに応用し、
-          感情ではなくデータを基準に判断することで資産を約2倍に増やした経験があります。<br><br>
-          <strong>チームスポーツで鍛えたメンタル</strong><br>
-          220人のサッカー部でレギュラー・エースとしてプレーし、東京都優勝を経験。
-          競争とチームワークの両方を現場で体感してきました。
-        </div>
-      </div>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects">
-      <div class="section-kicker">PROJECTS</div>
-      <h2 class="section-title">プロジェクト</h2>
-      <div class="two-col">
-        <div class="card">
-          <h3>PiyoChess – Flutter Chess App</h3>
+        <div>
+          <h4>UCI (Anteater Express)</h4>
           <p>
-            完全未経験から独学で開発したチェスアプリ。FlutterでUIを構築し、
-            基本的なチェスの動きやゲームロジック、画面遷移、効果音などを自分で実装しました。
-            現在はApp Storeの審査に提出済みです。
+            UCI runs a smaller, more compact shuttle network that mainly circles the campus and
+            nearby housing. This simpler system made it easier for UCI to transition to a
+            <strong>fully electric bus fleet</strong>.
           </p>
-          <div class="pill-list">
-            <span class="pill">Flutter</span>
-            <span class="pill">Game Logic</span>
-            <span class="pill">UI/UX</span>
-            <span class="pill">App Store 審査</span>
+          <div class="figure-placeholder">
+            <img src="assets/uci-route.png" alt="UCI shuttle route map" />
           </div>
         </div>
-        <div class="card">
-          <h3>FX × Economics</h3>
+        <div>
+          <h4>UCSD (Triton Transit)</h4>
           <p>
-            UCSDで学んだマクロ経済・金利・インフレ・購買力平価などの知識を用いて為替相場を分析。
-            データと理論に基づいたトレードを行い、リスク管理を徹底しながら
-            個人資産を約2倍に増やした経験があります。
+            UCSD operates a larger and more complex network with long routes that connect main
+            campus, medical centers, and surrounding areas. This scale increases operational
+            challenges for electrification and reliability.
           </p>
-          <div class="pill-list">
-            <span class="pill">Macroeconomics</span>
-            <span class="pill">Data Analysis</span>
-            <span class="pill">Risk Management</span>
+          <div class="figure-placeholder">
+            <img src="assets/ucsd-route.png" alt="UCSD shuttle route map" />
+          </div>
+        </div>
+      </div>
+      <p>
+        The main difference between the two systems is scale and route complexity.
+        UCI’s compact system makes electrification easier, while UCSD’s large and branching
+        routes require more vehicles, more charging capacity, and more carefully planned scheduling.
+      </p>
+    </section>
+
+    <!-- DATA & FIGURES -->
+    <section id="data">
+      <h3>Data Highlights</h3>
+      <div class="two-col">
+        <div>
+          <ul>
+            <li>UCSD fleet: 24 CNG shuttles and 6 electric shuttles (20% electric).</li>
+            <li>
+              Ridership and total vehicles increased between 2022/2023 and 2024/2025,
+              indicating higher demand and more pressure on the system.
+            </li>
+            <li>
+              Rising demand plus slow electrification creates a risk of unreliable service
+              and missed sustainability targets.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div class="figure-placeholder">
+            <img src="assets/shuttle-chart.png" alt="Bar chart comparing 2022/23 and 2024/25 ridership and vehicles" />
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact">
-      <div class="section-kicker">CONTACT</div>
-      <h2 class="section-title">Contact</h2>
-      <div class="card">
-        <p>
-          一緒にプロジェクトをしたい方、留学・編入・アプリ開発・FXなどについて話してみたい方は、
-          気軽にご連絡ください。
-        </p>
-        <div class="contact-links">
-          <!-- 実際のアカウントに差し替えてください -->
-          <a href="mailto:taito.harada@gmail.com">Email</a>
-          <a href="#" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="#" target="_blank" rel="noopener">X / Instagram</a>
-        </div>
+    <!-- TEAM -->
+    <section id="team">
+      <h3>Project Team &amp; Goals</h3>
+      <p>
+        Our team is part of a public health course at UC San Diego. We combine interests in
+        sustainability, transportation planning, data analysis, and visual design.
+      </p>
+      <ul>
+        <li>Clarify how far UCSD is from current UC and California sustainability goals.</li>
+        <li>Identify practical steps to improve reliability and expand electric shuttle use.</li>
+        <li>Share our findings with students, staff, and decision-makers in an accessible way.</li>
+      </ul>
+      <div class="figure-placeholder">
+        <img src="assets/team-photo.png" alt="Project team photo" />
       </div>
     </section>
   </main>
 
   <footer>
-    © <span id="year"></span> Taito Harada. All rights reserved.
+    &copy; 2025 UC San Diego Student Project – For educational purposes only.
   </footer>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
 
