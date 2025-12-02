@@ -22,21 +22,26 @@
       margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.5rem;
     }
-    header img {
-      max-height: 52px;
+    .header-text {
+      flex: 1;
     }
     header h1 {
       margin: 0 0 0.25rem;
-      font-size: 1.8rem;
+      font-size: 1.9rem;
     }
     header h2 {
       margin: 0;
-      font-size: 1rem;
-      font-weight: 400;
-      opacity: 0.9;
+      font-size: 1.2rem;
+      font-weight: 500;
     }
+    header p.subtitle {
+      margin: 0.6rem 0 0;
+      font-size: 0.95rem;
+      opacity: 0.95;
+    }
+
     nav {
       background: #e7edf6;
       border-bottom: 1px solid #d1d9e6;
@@ -60,6 +65,7 @@
     nav a:hover {
       background: #cbd6ec;
     }
+
     main {
       max-width: 1000px;
       margin: 0 auto;
@@ -81,6 +87,7 @@
       padding-bottom: 0.35rem;
       margin-bottom: 0.7rem;
     }
+
     .two-col {
       display: grid;
       grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
@@ -95,6 +102,7 @@
         align-items: flex-start;
       }
     }
+
     ul {
       padding-left: 1.2rem;
       margin: 0.25rem 0;
@@ -108,6 +116,7 @@
       border-radius: 999px;
       margin: 0.2rem 0.2rem 0 0;
     }
+
     .figure-placeholder {
       border-radius: 10px;
       border: 1px dashed #c4cce0;
@@ -121,8 +130,35 @@
       max-width: 100%;
       border-radius: 8px;
       display: block;
-      margin: 0 auto;
+      margin: 0.2rem auto 0;
     }
+
+    /* table for UC System vs UCI vs UCSD */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .comparison-table th,
+    .comparison-table td {
+      border: 1px solid #d7ddea;
+      padding: 0.5rem 0.6rem;
+      vertical-align: top;
+    }
+    .comparison-table th {
+      background: #f2f4fc;
+      color: #00356b;
+      font-weight: 600;
+      text-align: left;
+    }
+    .comparison-table caption {
+      caption-side: top;
+      text-align: left;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #00356b;
+    }
+
     footer {
       text-align: center;
       font-size: 0.8rem;
@@ -134,11 +170,13 @@
 <body>
   <header>
     <div class="title">
-      
-    
-      <div>
-        <h1>Investigating UCSD’s Transportation System: Electric vs. Gas Buses</h1>
-        <h2>UC San Diego – SYN100 Student Research Project</h2>
+      <div class="header-text">
+        <h1>Investigating UCSD’s Transportation System:</h1>
+        <h2>Electric vs. Gas Buses</h2>
+        <p class="subtitle">
+          Driving Question: How can UCSD improve the reliability of its bus fleet and make better use of electric
+          shuttles while working toward the 2045 zero-emission goal?
+        </p>
       </div>
     </div>
   </header>
@@ -147,9 +185,13 @@
     <ul>
       <li><a href="#abstract">Abstract</a></li>
       <li><a href="#methods">Materials &amp; Methods</a></li>
-      <li><a href="#policy">Policy Analysis</a></li>
-      <li><a href="#comparison">UCSD vs. UCI</a></li>
-      <li><a href="#data">Data &amp; Figures</a></li>
+      <li><a href="#background">Background Statistics</a></li>
+      <li><a href="#fleet">Current Bus Fleet Situation</a></li>
+      <li><a href="#comparison">UC System &amp; Campus Comparison</a></li>
+      <li><a href="#data">Data Highlights</a></li>
+      <li><a href="#interview">Interview Highlights</a></li>
+      <li><a href="#future">Future Directions</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#team">Team</a></li>
     </ul>
   </nav>
@@ -159,17 +201,26 @@
     <section id="abstract">
       <h3>Abstract</h3>
       <p>
-        This project investigates how UC San Diego can improve the reliability of its bus fleet and
-        make better use of electric shuttles while moving toward long-term zero-emission goals.
-        We compare UCSD’s current shuttle system with University of California policies and
-        California zero-emission bus regulations, and we benchmark UCSD against another UC campus,
-        UC Irvine.
+        <strong>UC policy:</strong> UC campuses should move toward <strong>100% zero emissions</strong> in general by 2045. <br />
+        <strong>UCOP Sustainable Practices Policy:</strong> All new fleet vehicle purchases are expected to be
+        zero-emission by <strong>2027</strong>.
       </p>
       <p>
-        Our early findings show that UCSD’s electric bus adoption is still low
-        (6 electric buses out of 30 total), which puts the campus far behind UC
-        system expectations and state-level sustainability targets. This website
-        summarizes our methods, key data, and main insights.
+        How can UC San Diego improve reliability of its bus fleet and implement zero-emission buses while moving toward
+        these UC policies?
+      </p>
+      <p>
+        <strong>Current Bus Fleet Information:</strong>
+      </p>
+      <ul>
+        <li>Compressed Natural Gas (CNG) Shuttles: <strong>24</strong></li>
+        <li>Electric Shuttles: <strong>6</strong></li>
+        <li><strong>5–6</strong> campus routes used every day</li>
+        <li>About <strong>500,000</strong> student passengers quarterly</li>
+      </ul>
+      <p>
+        <strong>Goal:</strong> Clarify and present concrete problems that prevent UCSD’s bus fleet from becoming fully
+        electric.
       </p>
     </section>
 
@@ -180,7 +231,7 @@
         <div>
           <ul>
             <li>Surveys from UCSD Transportation Services</li>
-            <li>Interview with the General Manager of UCSD Transportation</li>
+            <li>Interview with the General Manager of UCSD Transportation Services</li>
             <li>University of California Sustainability Report (2024)</li>
             <li>UC Irvine Anteater Express website and route maps</li>
             <li>California Air Resources Board (ICT / ZEB regulations)</li>
@@ -203,31 +254,108 @@
       </div>
     </section>
 
-    <!-- POLICY ANALYSIS -->
-    <section id="policy">
-      <h3>UC &amp; State Policy Analysis</h3>
+    <!-- BACKGROUND STATISTICS -->
+    <section id="background">
+      <h3>Background Statistics</h3>
       <p>
-        UC Policy states that campuses should move toward <strong>100% zero-emission fleets by 2045</strong>.
-        Under the UCOP Sustainable Practices Policy, all new fleet vehicle purchases are expected to be
-        zero-emission by <strong>2027</strong>.
+        These charts show the differences between the amount of shuttles and buses that have been run for each
+        year’s Winter quarter, as well as the number of people who have taken those shuttles and buses.
       </p>
       <p>
-        UCSD currently operates <strong>6 electric buses out of 30 total</strong>, which is
-        about <strong>20% electrification</strong>. Compared to the UC system’s expectation of 100% ZEV
-        for new fleet purchases, UCSD is roughly <strong>80 percentage points behind</strong>.
+        There is a notable decrease in the number of people taking public transit even though there is an increase
+        in the number of shuttles and buses.
       </p>
-      <p>
-        This gap suggests that UCSD must significantly accelerate its transition planning, expand
-        charging infrastructure, and make better use of the electric shuttles that already exist.
-      </p>
+
+      <div class="two-col">
+        <div class="figure-placeholder">
+          Transit Vehicles (2022/2023 vs 2023/2024)
+          <img src="assets/transit-vehicles.png"
+               alt="Bar chart showing transit vehicles comparison" />
+        </div>
+        <div class="figure-placeholder">
+          Transit Occupants (2022/2023 vs 2024/2025)
+          <img src="assets/transit-occupants.png"
+               alt="Bar chart showing transit occupants comparison" />
+        </div>
+      </div>
     </section>
 
-    <!-- COMPARISON -->
+    <!-- CURRENT BUS FLEET SITUATION -->
+    <section id="fleet">
+      <h3>Current Bus Fleet Situation</h3>
+      <p><strong>6 out of 30 campus shuttles are electric.</strong></p>
+      <ul>
+        <li>6 electric / 30 total buses = <strong>20% electrification</strong>.</li>
+        <li>
+          Compared to the UC system’s expectations for zero-emission fleets, UCSD is currently
+          about <strong>80 percentage points behind</strong>.
+        </li>
+      </ul>
+    </section>
+
+    <!-- COMPARISON (UC SYSTEM POLICY + UCSD vs UCI) -->
     <section id="comparison">
-      <h3>Comparing UCSD with UCI</h3>
+      <h3>UC System Policy &amp; Campus Comparison</h3>
+
+      <table class="comparison-table">
+        <caption>Summary of Zero-Emission Transportation Goals and Status</caption>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>UC System Policy</th>
+            <th>University of California, Irvine (UCI)</th>
+            <th>University of California, San Diego (UCSD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Target Year</th>
+            <td>2045</td>
+            <td>2045</td>
+            <td>2045</td>
+          </tr>
+          <tr>
+            <th>Ultimate Goal</th>
+            <td>100% Zero Emissions</td>
+            <td>100% Zero Emissions</td>
+            <td>100% Zero Emissions</td>
+          </tr>
+          <tr>
+            <th>Current Zero-Emission Status (Transportation)</th>
+            <td>System-wide goal for all campuses</td>
+            <td>100% achieved in student shuttle fleet</td>
+            <td>Approx. 20% electric (6 electric out of 30 shuttles)</td>
+          </tr>
+          <tr>
+            <th>Key Status / Method of Achievement</th>
+            <td>Mandated across all UC campuses by UCOP Sustainable Practices Policy</td>
+            <td>
+              Achieved goal in 2017 by converting the student shuttle fleet to
+              100% Battery Electric Vehicles (BEVs).
+            </td>
+            <td>
+              6 out of 30 shuttles are electric (20%). The remaining 24 shuttles run on CNG
+              (Compressed Natural Gas), representing the remaining 80% gap.
+            </td>
+          </tr>
+          <tr>
+            <th>Challenges for Achievement</th>
+            <td>-</td>
+            <td>
+              None currently; focus is on maintenance and sustained operations of the existing electric fleet.
+            </td>
+            <td>
+              Phased or bulk replacement of the 24 CNG vehicles with electric or hydrogen models, and establishing
+              sufficient charging infrastructure to cover the remaining 80% deficit.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Comparing UCSD with UCI (Routes &amp; Scale)</h4>
       <div class="two-col">
         <div>
-          <h4>UCI (Anteater Express)</h4>
+          <h5>UCI (Anteater Express)</h5>
           <p>
             UCI runs a smaller, more compact shuttle network that mainly circles the campus and
             nearby housing. This simpler system made it easier for UCI to transition to a
@@ -238,7 +366,7 @@
           </div>
         </div>
         <div>
-          <h4>UCSD (Triton Transit)</h4>
+          <h5>UCSD (Triton Transit)</h5>
           <p>
             UCSD operates a larger and more complex network with long routes that connect main
             campus, medical centers, and surrounding areas. This scale increases operational
@@ -256,46 +384,114 @@
       </p>
     </section>
 
-    <!-- DATA & FIGURES -->
+    <!-- DATA HIGHLIGHTS（テキストのみ） -->
     <section id="data">
       <h3>Data Highlights</h3>
+      <ul>
+        <li>UCSD fleet: 24 CNG shuttles and 6 electric shuttles (20% electric).</li>
+        <li>
+          Ridership and total vehicles increased between 2022/2023 and 2024/2025,
+          indicating higher demand and more pressure on the system.
+        </li>
+        <li>
+          Rising demand plus slow electrification creates a risk of unreliable service
+          and missed sustainability targets.
+        </li>
+      </ul>
+    </section>
+
+    <!-- INTERVIEW -->
+    <section id="interview">
+      <h3>Interview Highlights (UCSD Transportation Services)</h3>
+      <ul>
+        <li>
+          Some electric buses stay parked because they are waiting on safety installs, repairs, or parts delays.
+          They are rotated in as soon as they are service-ready.
+        </li>
+        <li>
+          Charging mainly happens after 9 PM to avoid high daytime electricity costs. Daytime charging is possible,
+          but not cost-efficient.
+        </li>
+        <li>
+          New chargers at P705 will allow up to 12 buses to fast-charge overnight, reducing the current charging
+          bottleneck.
+        </li>
+        <li>
+          Tight turns (especially along Scholars Drive near Theatre District and Sixth College) are harder for
+          electric buses because of their larger turning radius.
+        </li>
+        <li>
+          Driver training improves as more electric buses become available—familiarity grows with regular rotation.
+        </li>
+        <li>
+          Electric buses currently have more downtime than CNG units due to parts, technician availability,
+          and cooling-system issues.
+        </li>
+        <li>
+          UCSD’s goal is to reach <strong>100% electric by 2040</strong>, with approximately 5–9 buses planned
+          for replacement in the next two years.
+        </li>
+      </ul>
+    </section>
+
+    <!-- FUTURE DIRECTIONS（中身は空欄） -->
+    <section id="future">
+      <h3>Future Directions</h3>
       <div class="two-col">
-        <div>
-          <ul>
-            <li>UCSD fleet: 24 CNG shuttles and 6 electric shuttles (20% electric).</li>
-            <li>
-              Ridership and total vehicles increased between 2022/2023 and 2024/2025,
-              indicating higher demand and more pressure on the system.
-            </li>
-            <li>
-              Rising demand plus slow electrification creates a risk of unreliable service
-              and missed sustainability targets.
-            </li>
-          </ul>
+        <div class="figure-placeholder">
+          <!-- ここに将来の方向性の文章・箇条書きを入れてOK -->
+          (Add future directions text here)
         </div>
-        <div>
-          <div class="figure-placeholder">
-            <img src="assets/shuttle-chart.png" alt="Bar chart comparing 2022/23 and 2024/25 ridership and vehicles" />
-          </div>
+        <div class="figure-placeholder">
+          <!-- グラフや表を埋めたい場合は、画像 or <table> をここに追加 -->
+          (Add future charts / tables here)
         </div>
       </div>
     </section>
 
+    <!-- REFERENCES -->
+    <section id="references">
+      <h3>References</h3>
+      <ol>
+        <li>
+          Transportation Services, University of California San Diego. (2024).
+          <em>Transportation services survey data.</em> UC San Diego. (Unpublished raw data).
+        </li>
+        <li>
+          General Manager, UC San Diego Transportation Services. (2024).
+          <em>Personal interview</em> [Interview].
+        </li>
+        <li>
+          University of California, Office of the President. (2024).
+          <em>University of California sustainability report 2024.</em>
+          Retrieved from https://www.ucop.edu/sustainability
+        </li>
+        <li>
+          University of California, Irvine. (n.d.).
+          <em>Anteater Express.</em> Retrieved from https://www.shuttle.uci.edu/
+        </li>
+        <li>
+          California Air Resources Board. (n.d.).
+          <em>Homepage.</em> Retrieved from https://www2.arb.ca.gov/
+        </li>
+        <li>
+          UC San Diego Triton Transit. (n.d.).
+          <em>TransLoc real-time map.</em> Retrieved from https://ucsd.transloc.com/
+        </li>
+        <li>
+          University of California, Irvine. (n.d.).
+          <em>Anteater Express bus tracking.</em> Retrieved from https://uci.transloc.com/
+        </li>
+      </ol>
+    </section>
+
     <!-- TEAM -->
     <section id="team">
-      <h3>Project Team &amp; Goals</h3>
+      <h3>Project Team</h3>
       <p>
-        Our team is part of a public health course at UC San Diego. We combine interests in
-        sustainability, transportation planning, data analysis, and visual design.
+        Team 5 – <strong>Manigbas, Leung, Harada, Cabebe</strong><br />
+        UC San Diego – SYN100 Student Research Project
       </p>
-      <ul>
-        <li>Clarify how far UCSD is from current UC and California sustainability goals.</li>
-        <li>Identify practical steps to improve reliability and expand electric shuttle use.</li>
-        <li>Share our findings with students, staff, and decision-makers in an accessible way.</li>
-      </ul>
-      <div class="figure-placeholder">
-      
-      </div>
     </section>
   </main>
 
@@ -304,6 +500,3 @@
   </footer>
 </body>
 </html>
-
-
-
